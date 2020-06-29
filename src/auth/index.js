@@ -1,12 +1,29 @@
 const Discord = require('discord.js')
+
+// TODO substituir por 'alunos_ti_a.json' => o arquivo está com alguns problemas de codificação (carcteres especiais), é necessário corrígí-los, grande maioria já corrigida
 const data = require('../../data/')
 
+//array de dados capturados através da coversa com o bot
 const userData = {
     course: '',
     ra: '',
     birthDate: '',
 }
 
+// inteligência de chat: reconhecimento e termos semelhantes porém não exatos (nice to have! - não está implementado ainda)
+const possibilities = {
+    autenticate = ["autentica", "autenticar", "autenticação", "autenticar-me"],
+    courses = [
+        ["Sistemas de Informação", "Sistema de Informação", "Sistemas de Informaçao", "Sistemas de Informacao", "Sistema de Informacao"],
+        [],
+        [],
+        [],
+        [],
+        []
+    ]
+}
+
+// inicio da conversa de autenticação
 module.exports = client => {
     client.on('message', msg => {
         if ((msg.content.toLowerCase().indexOf('autenticar') !== -1
@@ -22,6 +39,7 @@ module.exports = client => {
     });
 }
 
+// método para capturar o curso do usuário
 const getCourse = (client) => {
     client.on('message', msg => {
         if (msg.author != client.user) {
@@ -38,6 +56,7 @@ const getCourse = (client) => {
     });
 }
 
+// método para capturar o RA do usuário
 const getRA = (client) => {
     client.on('message', msg => {
         if (msg.author != client.user) {
@@ -54,6 +73,7 @@ const getRA = (client) => {
     });
 }
 
+// método para capturar a data de nascimento do usuário
 const getBirthDate = (client) => {
     client.on('message', msg => {
         if (msg.author != client.user) {

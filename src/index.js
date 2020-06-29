@@ -8,7 +8,6 @@ const client = new Discord.Client()
 client.login(config.token)
 client.on('ready', () => console.log("Ahoy!"))
 
-
 client.on('message', msg => {
     if (msg.author == client.user) {
         return
