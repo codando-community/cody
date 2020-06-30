@@ -1,3 +1,9 @@
 {
-    "token": "NzI2ODUwODQ3MDU2NzI0MDU4.Xvja_g.bFqKZra4pTJMNNhHHvJkUrtrp6Q"
+    "token": "NzI3MzE4MTUzMTA5MDQ1MjQ4.XvqF9Q.gmg2hmU9ymfl8_l6QBelILJvPso",
+    "guild": {
+        "id": "720760691677462588",
+        "roles": {
+            "aluno": "727330921262612490"
+        }
+    }
 }

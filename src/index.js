@@ -6,13 +6,7 @@ const Auth = require("./auth/");
 const client = new Discord.Client()
 
 client.login(config.token)
-client.on('ready', () => console.log("Ahoy!"))
+client.on('ready', (a) => console.log("Ahoy!" +a))
 
-client.on('message', msg => {
-    if (msg.author == client.user) {
-        return
-    } else {
-        Welcome(client)
-        Auth(client)
-    }
-})
+Welcome(client)
+Auth(client)
