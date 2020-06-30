@@ -1,10 +1,8 @@
 const Discord = require('discord.js')
 
-const config = require('../../botconfig.json')
-// TODO substituir por 'alunos_ti_a.json' => o arquivo está com alguns problemas de codificação (carcteres especiais), é necessário corrígí-los, grande maioria já corrigida
-const data = require('../../data/')
-
-// 
+const config = require('../../data/botconfig.json')
+const data = require('../../data/alunos_ti_29.json')
+const possibilities = require('./possibilities.json')
 
 //array de dados capturados através da coversa com o bot
 const userData = {
@@ -13,31 +11,12 @@ const userData = {
     bd: null,
 }
 
-// inteligência de chat: reconhecimento e termos semelhantes porém não exatos (nice to have! - não está implementado ainda)
-// const possibilities = {
-//     autenticate = ["autentica", "autenticar", "autenticação", "autenticar-me"],
-//     courses = [
-//         ["Sistemas de Informação", "Sistema de Informação", "Sistemas de Informaçao", "Sistemas de Informacão","Sistemas de Informacao", "Sistema de Informaçao", "Sistema de Informacão","Sistema de Informacao"],
-//         ["Ciência da Computação","Ciencia da Computaçao","Ciencia da Computacão","Ciencia da Computacao","Ciência da Computacão","Ciência da Computaçao","Ciência","Ciencia"],
-//         ["ADS","Análise e Desenvolvimento de Sistemas","Analise e Desenvolvimento de Sistemas"],
-//         ["Sistemas para Internet","Sistemas de Internet","Sistemas da Internet","Sistemas para a Internet"],
-//         ["Defesa Cibernética","Defesa Cibernetica","Defesa Cyber"],
-//         ["Engenharia da Computação","Engenharia da Computaçao", "Engenharia da Computacao","Engenharia da Computacão",]
-//         ["Gestão de Tecnologia da Informação","Gestão de Tecnologia da Informaçao","Gestão de Tecnologia da Informacão","Gestão de Tecnologia da Informacao","Gestão","Gestao","Gestão de Tecnologia de Informação","Gestão de Tecnologia de Informaçao","Gestão de Tecnologia de Informacão","Gestão de Tecnologia de Informacao"],
-//         ["Redes de Computadores","Redes"],
-//         ["Segurança da Informação","Seguranca da Informação","Seguranca da Informacão","Seguranca da Informacao","Seguranca da Informaçao","Segurança da Informacao","Segurança da Informacão","Segurança de Informação","Seguranca de Informação","Seguranca de Informacão","Seguranca de Informacao","Seguranca de Informaçao","Segurança de Informacao","Seguraça de Informacão"],
-//         ["Banco de Dados","BD"],
-//         ["Jogos Digitais"]
-//     ]
-// }
-
 // inicio da conversa de autenticação
 module.exports = client => {
     client.on('message', msg => {
-        if ((msg.content.toLowerCase().indexOf('autenticar') >= 0
-        || msg.content.toLowerCase().indexOf('autenticação') >= 0)) {
+        if (matchPossibilities(msg.content, possibilities.autenticate)) {
             if(msg.channel.type == 'dm') {
-                msg.reply("Olá, sou Cody e vou te auxiliar nessa jornada!\nMe informe primeiro em qual curso está matriculado(ex: --curso Ciência da Computação)")
+                msg.reply("Olá, sou Cody e vou te auxiliar nessa jornada!\nMe informe primeiro em qual curso está matriculado(ex: Ciência da Computação)")
             } else {
                 msg.reply("nós não podemos fazer esse procedimento por aqui, ele é sigiloso 🤫\nMe chame no privado para que eu possa te ajudar melhor 😉")
             }
@@ -53,12 +32,10 @@ module.exports = client => {
 // método para capturar o curso do usuário
 const getCourse = client => {
     client.on('message', msg => {
-        if (msg.author != client.user) {
-            if(msg.content.indexOf("--curso") != -1) {
-                let temp = msg.content.split(" ")
-                userData.course = temp[temp.length-1]
-                console.log(userData)
-                msg.reply("Qual o número da sua matrícula/RA (ex: --ra 01234567)?")
+        if (msg.author !== client.user) {
+            if(matchPossibilities(msg.content, possibilities.courses)) {
+                userData.course = msg.content
+                msg.reply("Qual o número da sua matrícula/RA? (ex: ra=01234567)")
             }
         }
     });
@@ -68,11 +45,10 @@ const getCourse = client => {
 const getRA = client => {
     client.on('message', msg => {
         if (msg.author != client.user) {
-            if(msg.content.indexOf("--ra") != -1) {
-                let temp = msg.content.split(" ")
+            if(msg.content.indexOf("ra=") != -1) {
+                let temp = msg.content.split("=")
                 userData.ra = temp[temp.length-1]
-                console.log(userData)
-                msg.reply("Qual a sua data de nascimento? (ex: --dn 01-01-2000)")
+                msg.reply("Qual a sua data de nascimento? (ex: 2000-03-31)")
             }
         }
     });
@@ -82,30 +58,27 @@ const getRA = client => {
 const getBirthDate = client => {
     client.on('message', msg => {
         if (msg.author != client.user) {
-            if(msg.content.indexOf("--dn") != -1) {
-                let temp = msg.content.split(" ")
-                userData.bd = temp[temp.length-1]
-                console.log(userData)
-                validate(client, msg.author.id)
+            if(msg.content.indexOf("-") != -1 && msg.channel.type == 'dm') {
+                userData.bd = msg.content
+                validate(client, msg)
             }
         }
     });
 }
 
-const validate = (client, userId) => {
-    for (let i=0; i<data.page1.length; i++) {
-        if (data.page1[i].course === userData.course) {
-            if (data.page1[i].ra === userData.ra) {
-                if (data.page1[i].bd === userData.bd) {
-                    acess(client, userId)
-                } else {
-                    console.log("dn errado")
+const validate = (client, msg) => {
+    for (let i=0; i<Object.keys(data).length; i++) {
+        if (data[i].Matricula === userData.ra) {
+            if (data[i].Curso === userData.course) {
+                if (data[i].Dat_Nascimensto === userData.bd) {
+                    acess(client, msg.author.id)
+                    return msg.reply("Olá " +data[i].Nome + "\nSeu acesso aos outros canais do servidor acaba de ser liberado!\nPor favor, leia as regras e aproveite 😉")
                 }
-            } else {
-                console.log("aluno inexistente, tente novamente.")
             }
-        } else {
-            console.log("curso inexistente, tente novamente.")
+        }
+
+        if (i+1 == Object.keys(data).length) {
+            msg.reply("Oops, não encontrei o seu cadastro🤔\nVamos recomeçar:")
         }
     }
 }
@@ -113,8 +86,16 @@ const validate = (client, userId) => {
 const acess = (client, userId) => {
     let role =  client.guilds.cache.find(g => g.id === config.guild.id).roles.cache.find(role => role.id === config.guild.roles.aluno)
     let member = client.guilds.cache.find(g => g.id === config.guild.id).members.cache.find(m => m.id === userId)
+    member.roles.add(role).catch(console.error)
+}
 
-    console.log("user: ", member.addRole(role)) //método "inválido"/"inexistente"
+const matchPossibilities = (content, terms) => {
+    for (let i = 0; i<terms.length; i++) {
+        if (content.toLowerCase().indexOf(terms[i].toLowerCase()) != -1) {
+            return true
+        }
+    }
+    return false
 }
 
 // const verifyPossibilities = (content, possibilities) => {
