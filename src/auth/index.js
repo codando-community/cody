@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 
-const config = require('../config.json')
+const config = require('../../botconfig.json')
 // TODO substituir por 'alunos_ti_a.json' => o arquivo está com alguns problemas de codificação (carcteres especiais), é necessário corrígí-los, grande maioria já corrigida
 const data = require('../../data/')
 

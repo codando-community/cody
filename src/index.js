@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const config = require('./config.json')
+const config = require('../data/botconfig.json')
 const Welcome = require('./welcome/')
 const Auth = require("./auth/");
 
