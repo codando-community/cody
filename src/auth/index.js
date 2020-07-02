@@ -24,7 +24,7 @@ module.exports = client => {
     });
     getCourse(client)
     getRA(client)
-    getBirthDate(client)
+    // getBirthDate(client)
 }
 
 
@@ -70,10 +70,10 @@ const validate = (client, msg) => {
     for (let i=0; i<Object.keys(data).length; i++) {
         if (data[i].Matricula === userData.ra) {
             if (data[i].Curso === userData.course) {
-                if (data[i].Dat_Nascimensto === userData.bd) {
+                // if (data[i].Dat_Nascimensto === userData.bd) {
                     acess(client, msg.author.id)
                     return msg.reply("Olá " +data[i].Nome + "\nSeu acesso aos outros canais do servidor acaba de ser liberado!\nPor favor, leia as regras e aproveite 😉")
-                }
+                // }
             }
         }
 
