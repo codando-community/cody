@@ -14,7 +14,7 @@ const userData = {
 // inicio da conversa de autenticação
 module.exports = client => {
     client.on('message', msg => {
-        if (matchPossibilities(msg.content, possibilities.autenticate)) {
+        if (matchPossibilities(msg.content, possibilities.autenticate) && msg.author !== client.user) {
             if(msg.channel.type == 'dm') {
                 msg.reply("Olá, sou Cody e vou te auxiliar nessa jornada!\nMe informe primeiro em qual curso está matriculado(ex: Ciência da Computação)")
             } else {
@@ -45,7 +45,7 @@ const getCourse = client => {
 const getRA = client => {
     client.on('message', msg => {
         if (msg.author != client.user) {
-            if(msg.content.indexOf("ra=") != -1) {
+            if(msg.content.toLowerCase().indexOf("ra=") != -1) {
                 let temp = msg.content.split("=")
                 userData.ra = temp[temp.length-1]
                 msg.reply("Qual a sua data de nascimento? (ex: 2000-03-31)")
