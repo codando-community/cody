@@ -1,3 +1,4 @@
 node_modules
 data
 src/config.json
+.env
