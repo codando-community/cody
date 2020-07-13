@@ -9,4 +9,4 @@ client.login(config.token)
 client.on('ready', (a) => console.log("Ahoy!" +a))
 
 Welcome(client)
-Auth(client)
+// Auth(client)

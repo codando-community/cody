@@ -12,20 +12,20 @@ const userData = {
 }
 
 // inicio da conversa de autenticação
-module.exports = client => {
-    client.on('message', msg => {
-        if (matchPossibilities(msg.content, possibilities.autenticate) && msg.author !== client.user) {
-            if(msg.channel.type == 'dm') {
-                msg.reply("Olá, sou Cody e vou te auxiliar nessa jornada!\nMe informe primeiro em qual curso está matriculado(ex: Ciência da Computação)")
-            } else {
-                msg.reply("nós não podemos fazer esse procedimento por aqui, ele é sigiloso 🤫\nMe chame no privado para que eu possa te ajudar melhor 😉")
-            }
-        }
-    });
-    getCourse(client)
-    getRA(client)
-    // getBirthDate(client)
-}
+// module.exports = client => {
+//     client.on('message', msg => {
+//         if (matchPossibilities(msg.content, possibilities.autenticate) && msg.author !== client.user) {
+//             if(msg.channel.type == 'dm') {
+//                 msg.reply("Olá, sou Cody e vou te auxiliar nessa jornada!\nMe informe primeiro em qual curso está matriculado(ex: Ciência da Computação)")
+//             } else {
+//                 msg.reply("nós não podemos fazer esse procedimento por aqui, ele é sigiloso 🤫\nMe chame no privado para que eu possa te ajudar melhor 😉")
+//             }
+//         }
+//     });
+//     getCourse(client)
+//     getRA(client)
+//     // getBirthDate(client)
+// }
 
 
 
