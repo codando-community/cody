@@ -1,0 +1,5 @@
+applications:
+    - name: "Codando"
+      routes:
+        - route: api-bot-codando.mybluemix.net
+      memory: 64M
