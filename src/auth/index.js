@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 const config = require('../../data/botconfig.json')
-const data = require('../../data/alunos_ti_29.json')
+const data = require('../../data/alunos/alunos_ti_09_07.json')
 const possibilities = require('./possibilities.json')
 
 //array de dados capturados através da coversa com o bot
