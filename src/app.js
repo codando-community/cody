@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
 const Welcome = require('./components/welcome')
 const Reactions = require('./components/reactions')
+const SendMessage = require('./components/sendMessage')
+const Voting = require('./components/voting')
 require('dotenv').config()
 
 const client = new Discord.Client()
@@ -10,7 +12,8 @@ client.on('ready', () => console.log('Ahoy!'))
 
 Welcome(client)
 Reactions(client)
-
+SendMessage(client)
+Voting(client)
 
 // Auth(client)
 // client.on('ready', newMember => {
