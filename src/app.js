@@ -8,7 +8,10 @@ require('dotenv').config()
 const client = new Discord.Client()
 
 client.login(process.env.DS_TOKEN)
-client.on('ready', () => console.log('Ahoy!'))
+client.on('ready', () => {
+    console.log('Ahoy!')
+})
+
 
 Welcome(client)
 Reactions(client)
