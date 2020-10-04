@@ -14,5 +14,5 @@ module.exports = client => {
     //                 const channel = client.channels.cache.find(c => c.id === process.env.CHANNEL_BATEPAPO_ID)
     //                 channel.send('Bem-vindo!  ✨ 🎉🎉🎉')
     //             }
-    })
+    // })
 }
