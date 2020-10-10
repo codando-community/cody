@@ -1,2 +1,1 @@
-# cody
-## só q em python
+# codando-discordbot
