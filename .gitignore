@@ -1,4 +1,3 @@
-node_modules
-data/alunos
-src/config.json
+__pycache__/*
+data/settings.json
 .env
