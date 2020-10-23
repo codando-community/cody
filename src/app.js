@@ -5,6 +5,7 @@ const Reactions = require('./components/reactions')
 const SendMessage = require('./components/sendMessage')
 const Test = require('./components/test')
 require('dotenv').config()
+const app = express()
 
 const client = new Discord.Client()
 
@@ -18,8 +19,7 @@ Reactions(client)
 SendMessage(client)
 Test(client)
 
-express().set('port', 8080)
-express().listen(express().get('port'));
+app.listen(8080, () => {})
 
 // Auth(client)
 // client.on('ready', newMember => {
