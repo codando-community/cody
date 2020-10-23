@@ -1,3 +1,4 @@
+const express = require('express')
 const Discord = require('discord.js')
 const Welcome = require('./components/welcome')
 const Reactions = require('./components/reactions')
@@ -5,13 +6,16 @@ const SendMessage = require('./components/sendMessage')
 const Test = require('./components/test')
 require('dotenv').config()
 
+express().listen(express().get('port'), '0.0.0.0', () => {
+    console.log(`Server starting on ${express().get('port')} `);
+})
+
 const client = new Discord.Client()
 
 client.login(process.env.DS_TOKEN)
 client.on('ready', () => {
-    console.log('Ahoy!')
+    console.log('Ahoy! to on na IBM!')
 })
-
 
 Welcome(client)
 Reactions(client)
