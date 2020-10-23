@@ -6,9 +6,8 @@ const SendMessage = require('./components/sendMessage')
 const Test = require('./components/test')
 require('dotenv').config()
 
-express().listen(express().get('port'), '0.0.0.0', () => {
-    console.log(`Server starting on ${express().get('port')} `);
-})
+express().set('port', 8080)
+express().listen(express().get('port'));
 
 const client = new Discord.Client()
 
