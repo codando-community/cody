@@ -18,7 +18,7 @@ Reactions(client)
 SendMessage(client)
 Test(client)
 
-express().set('port', 8080)
+express().set('port', process.env.PORT || 8080)
 express().listen(express().get('port'));
 
 // Auth(client)
