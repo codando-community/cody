@@ -4,18 +4,20 @@ const Welcome = require('./components/welcome')
 const Reactions = require('./components/reactions')
 const SendMessage = require('./components/sendMessage')
 const ServerLog = require('./components/serverLog')
+const Role = require('./components/role')
 require('dotenv').config()
 const app = express()
 
 const client = new Discord.Client()
 
 client.login(process.env.DS_TOKEN)
-client.on('ready', () => console.log('^^ Ahoy!\n'))
+client.on('ready', () => console.log('^^ Ahoy!'))
 
 Welcome(client)
 Reactions(client)
 SendMessage(client)
 ServerLog(client)
+Role(client)
 
 app.listen(8080, () => {})
 

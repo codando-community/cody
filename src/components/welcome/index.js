@@ -7,8 +7,8 @@ module.exports = client => {
 
     // client.on('message', msg => {
     //     const msgContent = msg.content.toLowerCase()
-        
-    //     if (msg.channel.id === process.env.CHANNEL_BATEPAPO_ID) 
+
+    //     if (msg.channel.id === process.env.CHANNEL_BATEPAPO_ID)
     //         if (msg.author !== client.user)
     //             if (msgContent.indexOf('bemvindo!!!!') != -1 || msgContent.indexOf('bem-vindo!!!!') != -1 || msgContent.indexOf('bem vindo!!!!') != -1) {
     //                 const channel = client.channels.cache.find(c => c.id === process.env.CHANNEL_BATEPAPO_ID)
