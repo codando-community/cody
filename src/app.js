@@ -21,5 +21,9 @@ app.listen(8080, () => {})
 
 // Auth(client)
 // client.on('ready', newMember => {
-//     client.guilds.cache.find(a => a.id === process.env.SERVER_ID).channels.cache.map(a => console.log("{name: '", a.name, "', id: '", a.id,"'}"))
+//     client.guilds.cache
+//       .find(a => a.id === process.env.SERVER_ID)
+//       .channels.cache.map(a => console.
+//         log("{name: '", a.name, "', id: '", a.id,"'}")
+//       )
 // });
