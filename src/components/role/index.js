@@ -28,15 +28,19 @@ module.exports = client => client.on('message', msg => {
     )
 
     const Add = roleName => (
-      member().roles.add(role(roleName))
-        .then(msg.reply(`cargo ${role(roleName).name} aplicado ao usuário ${member().user.username} 👍`))
-        .catch(console.error)
+      member()
+        ? member.roles.add(role(roleName))
+          .then(msg.reply(`cargo ${role(roleName).name} aplicado ao usuário ${member().user.username} 👍`))
+          .catch(console.error)
+        : msg.reply('Essa funcionalidade ainda não está pronta')
     )
 
     const Remove = roleName => (
-      member().roles.remove(role(roleName))
-        .then(msg.reply(`cargo ${role(roleName).name} removido ao usuário ${member().user.username} 👍`))
-        .catch(console.error)
+      member()
+        ? member.roles.remove(role(roleName))
+          .then(msg.reply(`cargo ${role(roleName).name} removido ao usuário ${member().user.username} 👍`))
+          .catch(console.error)
+        : msg.reply('Essa funcionalidade ainda não está pronta')
     )
 
     switch (action) {
