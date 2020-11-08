@@ -11,7 +11,10 @@ const app = express()
 const client = new Discord.Client()
 
 client.login(process.env.DS_TOKEN)
-client.on('ready', () => console.log('^^ Ahoy!'))
+
+client.on('ready', () =>
+  console.log(process.env.SERVER_ID === '720760691677462588' ? 'Em ambiente de produção' : 'Em ambiente de desenvolvimento')
+)
 
 Welcome(client)
 Reactions(client)
@@ -19,13 +22,13 @@ SendMessage(client)
 ServerLog(client)
 Role(client)
 
-app.listen(8080, () => {})
+app.listen(8080, () => { })
 
 // Auth(client)
-// client.on('ready', newMember => {
-//     client.guilds.cache
-//       .find(a => a.id === process.env.SERVER_ID)
-//       .channels.cache.map(a => console.
-//         log("{name: '", a.name, "', id: '", a.id,"'}")
-//       )
+// client.on('ready', () => {
+//   client.guilds.cache
+//     .find(a => a.id === process.env.SERVER_ID)
+//     .channels.cache.map(a => console.
+//       log('{name: '', a.name, '', id: '', a.id, ''}')
+//     )
 // });
