@@ -30,6 +30,6 @@ app.listen(8080, () => { })
 //   client.guilds.cache
 //     .find(a => a.id === process.env.SERVER_ID)
 //     .channels.cache.map(a => console.
-//       log('{name: '', a.name, '', id: '', a.id, ''}')
+//       log('{name: ', a.name, ', id: ', a.id, '}')
 //     )
 // });

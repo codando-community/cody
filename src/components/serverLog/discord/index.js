@@ -1,23 +1,33 @@
 module.exports = client => client.on('message', msg => {
-  const isCodyReference = msg.mentions.users.filter(u => u === client.user).size === 1
 
-  const isDiretoriaMember = (msgAuthor) => {
-    let diretoriaUserList = []
+  const isDiretoriaMember = msg => {
 
-    client.guilds.cache.map(c =>
-      c.roles.cache.map(role =>
-        role.id === process.env.ROLE_DIRETORIA_ID
-        && role.members.map(m => diretoriaUserList.push(m.user))))
+    let result = false
 
-    return diretoriaUserList.filter(m => m === msgAuthor)[0]
+    client.guilds.cache
+    .filter(server => server.id === process.env.SERVER_ID)
+    .map(server => {
+      server.roles.cache
+      .filter(role => role.name.toLowerCase() === 'diretoria')
+      .map(diretoria => roleId = diretoria.id)
+
+      server.members.cache
+      .map(member =>
+        member.user.username.toLowerCase() === msg.channel.recipient.username.toLowerCase()
+        && member.user.discriminator === msg.channel.recipient.discriminator
+        && (result=true)
+        )
+    })
+
+    return result
   }
 
-  if (msg.author !== client.user)
-    if (isCodyReference) {
-      if (msg.content.toLowerCase().indexOf('server log') != -1) {
-        isDiretoriaMember(msg.author)
-          && client.guilds.cache.map(c => c.roles.cache.map(role =>
-            msg.reply(`cargo: ${role.name}, members: ${role.members.size}`)))
+  if (msg.channel.type == 'dm') {
+    if (msg.author !== client.user) {
+      if (msg.content.toLowerCase().indexOf('server status') != -1 && isDiretoriaMember(msg)) {
+        client.guilds.cache.map(c => c.roles.cache.map(role =>
+          msg.reply(`cargo: ${role.name}, members: ${role.members.size}`)))
       }
     }
+  }
 })

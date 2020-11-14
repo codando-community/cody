@@ -1,14 +1,25 @@
 module.exports = client => client.on('message', msg => {
+
   const isDiretoriaMember = msg => {
 
-    let diretoriaUserList = []
+    let result = false
 
-    client.guilds.cache.map(c =>
-      c.roles.cache.map(role =>
-        role.name.toLowerCase() === 'diretoria'
-        && role.members.map(m => diretoriaUserList.push(m.user))))
+    client.guilds.cache
+    .filter(server => server.id === process.env.SERVER_ID)
+    .map(server => {
+      server.roles.cache
+      .filter(role => role.name.toLowerCase() === 'diretoria')
+      .map(diretoria => roleId = diretoria.id)
 
-    return diretoriaUserList.filter(m => m.username === msg.channel.recipient.username)[0]
+      server.members.cache
+      .map(member =>
+        member.user.username.toLowerCase() === msg.channel.recipient.username.toLowerCase()
+        && member.user.discriminator === msg.channel.recipient.discriminator
+        && (result=true)
+        )
+    })
+
+    return result
   }
 
   const handleRole = (action, msg, array) => {
@@ -29,7 +40,7 @@ module.exports = client => client.on('message', msg => {
 
     const Add = roleName => (
       member()
-        ? member.roles.add(role(roleName))
+        ? member().roles.add(role(roleName))
           .then(msg.reply(`cargo ${role(roleName).name} aplicado ao usuário ${member().user.username} 👍`))
           .catch(console.error)
         : msg.reply('Essa funcionalidade ainda não está pronta')
@@ -37,7 +48,7 @@ module.exports = client => client.on('message', msg => {
 
     const Remove = roleName => (
       member()
-        ? member.roles.remove(role(roleName))
+        ? member().roles.remove(role(roleName))
           .then(msg.reply(`cargo ${role(roleName).name} removido ao usuário ${member().user.username} 👍`))
           .catch(console.error)
         : msg.reply('Essa funcionalidade ainda não está pronta')
@@ -66,7 +77,8 @@ module.exports = client => client.on('message', msg => {
           ? handleRole(
             msg.content.split("--")[1].split(" ")[0],
             msg,
-            msg.content.split(' @'))
+            msg.content.split(' @')
+          )
           : msg.reply('Você não tem autorização para utilizar este comando, me leve para comer pizza e talvez você possa utilizá-lo 🍕😋')
       }
     }
