@@ -10,10 +10,15 @@
     "author": "maiconspa",
     "license": "ISC",
     "dependencies": {
+        "discord-player": "^3.0.2",
         "discord.js": "^12.2.0",
         "dotenv": "^5.0.1",
         "express": "^4.17.1",
-        "request": "^2.88.2"
+        "merge-options": "^3.0.3",
+        "node-fetch": "^2.6.1",
+        "request": "^2.88.2",
+        "spotify-url-info": "^2.2.0",
+        "ytpl": "^1.0.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.6"
