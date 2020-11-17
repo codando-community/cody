@@ -1,6 +1,6 @@
 const express = require("express");
 const Discord = require("discord.js");
-const { Player } = require("discord-player");
+// const { Player } = require("discord-player");
 require("dotenv").config();
 const app = express();
 
@@ -10,7 +10,7 @@ const SendMessage = require("./components/sendMessage");
 const ServerLog = require("./components/serverLog");
 const Role = require("./components/role");
 const Forward = require("./components/sendMessage/forward");
-const MusicPlayer = require("./components/musicPlayer");
+// const MusicPlayer = require("./components/musicPlayer");
 const VoiceChannel = require("./components/voiceChannel");
 const MemberGetOut = require('./components/sendMessage/goodbye')
 
@@ -37,7 +37,7 @@ Reactions(client);
 SendMessage(client);
 ServerLog(client);
 Role(client);
-MusicPlayer(client);
+// MusicPlayer(client);
 VoiceChannel(client);
 MemberGetOut(client);
 
