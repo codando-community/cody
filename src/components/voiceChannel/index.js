@@ -1,5 +1,9 @@
 module.exports = (client) =>
   client.on("message", (msg) => {
+    const channel = client.guilds.cache
+      .find((g) => g.id === process.env.SERVER_ID)
+      .channels.cache.find((ch) => ch.id == process.env.CHANNEL_TALKS_VOICE);
+
     const isDiretoriaMember = (msg) => {
       let result = false;
 
@@ -30,17 +34,22 @@ module.exports = (client) =>
           msg.content.toLowerCase().indexOf("--log") != -1
         ) {
           if (isDiretoriaMember) {
-            const channel = client.guilds.cache
-              .find((g) => g.id === process.env.SERVER_ID)
-              .channels.cache.find(
-                (ch) => ch.id == process.env.CHANNEL_TALKS_VOICE
+            if (msg.content.toLowerCase().indexOf("-m") != -1) {
+              channel.members.map((u) =>
+                u.send(
+                  msg.content.replace('-m','').replace('--log','').replace('voice','').trim()
+                )
               );
-            channel.members.map((u) =>
-              msg.reply(u.user.username + "#" + u.user.discriminator)
+            } else {
+              channel.members.map((u) =>
+                msg.reply(u.user.username + "#" + u.user.discriminator)
+              );
+            }
+          } else {
+            msg.reply(
+              "Você não tem autorização para utilizar este comando, me leve para comer pizza e talvez você possa utilizá-lo 🍕😋"
             );
           }
-        }else{
-          msg.reply('Você não tem autorização para utilizar este comando, me leve para comer pizza e talvez você possa utilizá-lo 🍕😋')
         }
       }
     }
