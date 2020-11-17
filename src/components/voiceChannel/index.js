@@ -37,7 +37,11 @@ module.exports = (client) =>
             if (msg.content.toLowerCase().indexOf("-m") != -1) {
               channel.members.map((u) =>
                 u.send(
-                  msg.content.replace('-m','').replace('--log','').replace('voice','').trim()
+                  msg.content
+                    .replace("-m", "")
+                    .replace("--log", "")
+                    .replace("voice", "")
+                    .trim()
                 )
               );
             } else {

@@ -12,6 +12,7 @@ const Role = require("./components/role");
 const Forward = require("./components/sendMessage/forward");
 const MusicPlayer = require("./components/musicPlayer");
 const VoiceChannel = require("./components/voiceChannel");
+const MemberGetOut = require('./components/sendMessage/goodbye')
 
 const client = new Discord.Client();
 
@@ -20,17 +21,13 @@ client.login(process.env.DS_TOKEN);
 client.player = new Player(client);
 
 client.on("ready", () => {
-  console.log(
+
     process.env.SERVER_ID === "720760691677462588"
-      ? "Em ambiente de produção"
-      : "Em ambiente de desenvolvimento"
-  ),
-    process.env.SERVER_ID === "720760691677462588"
-      ? client.user.setActivity("O bot tá on!", { type: "LISTENING" })
+      ? client.user.setActivity("O bot tá on!", { type: "LISTENING" }) && console.log('Em ambiente de produção!')
       : client.user.setActivity(
           " na aula, talvez algumas coisas não funcionem!",
           { type: "LISTENING" }
-        );
+        ) && console.log('Em ambiente de desenvolvimento')
 
   //types : WATCHING, LISTENING, PLAYING, STREAMING
 });
@@ -42,6 +39,7 @@ ServerLog(client);
 Role(client);
 MusicPlayer(client);
 VoiceChannel(client);
+MemberGetOut(client);
 
 app.listen(8080, () => {});
 
