@@ -33,7 +33,6 @@ client.on("ready", () => {
 
 Avisos(client)
 Meme(client)
-Forward(client)
 Goodbye(client)
 UserAndRoles(client)
 Welcome(client)
@@ -44,10 +43,10 @@ VoiceAudioManager(client)
 app.listen(8080, () => {});
 
 // Auth(client)
-client.on('ready', () => {
-  client.guilds.cache
-    .find(a => a.id === process.env.SERVER_ID)
-    .channels.cache.map(a => console.
-      log('{name: ', a.name, ', id: ', a.id, '}')
-    )
-});
+// client.on('ready', () => {
+//   client.guilds.cache
+//     .find(a => a.id === process.env.SERVER_ID)
+//     .channels.cache.map(a => console.
+//       log('{name: ', a.name, ', id: ', a.id, '}')
+//     )
+// });

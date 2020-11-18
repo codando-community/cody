@@ -64,7 +64,7 @@ module.exports = client => client.on('message', msg => {
         break;
 
       default:
-        msg.reply('erro: parâmetro não encontrado')
+        msg.reply('erro: parâmetro não encontrado, tente role [--add / --remove]')
         break;
     }
   }

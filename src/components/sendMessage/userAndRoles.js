@@ -1,23 +1,37 @@
 module.exports = client => client.on('message', msg => {
   const isCodyReference = msg.mentions.users.filter(u => u === client.user).size === 1
 
-  const isDiretoriaMember = (msgAuthor) => {
-    let diretoriaUserList = []
+  const isDiretoriaMember = msg => {
 
-    client.guilds.cache.map(c =>
-      c.roles.cache.map(role =>
-        role.id === process.env.ROLE_DIRETORIA_ID
-        && role.members.map(m => diretoriaUserList.push(m.user))))
+    let result = false
 
-    return diretoriaUserList.filter(m => m === msgAuthor)[0]
+    client.guilds.cache
+    .filter(server => server.id === process.env.SERVER_ID)
+    .map(server => {
+      server.roles.cache
+      .filter(role => role.name.toLowerCase() === 'diretoria')
+      .map(diretoria => roleId = diretoria.id)
+
+console.log(msg)
+
+      server.members.cache
+      .map(member =>
+        member.user.username.toLowerCase() === msg.author.username.toLowerCase()
+        && member.user.discriminator === msg.author.discriminator
+        && (result=true)
+        )
+    })
+
+    return result
   }
 
-  if (msg.channel.id === process.env.CHANNEL_TESTEBOT_ID)
+  if (msg.channel.id === process.env.CHANNEL_CODYBASH_ID)
     if (msg.author !== client.user)
       if (msg.content.toLowerCase().indexOf('enviar para') != -1)
         if (msg.content.toLowerCase().indexOf('mensagem:') != -1) {
           if (!isCodyReference) {
-            if (isDiretoriaMember(msg.author)) {
+            if (isDiretoriaMember(msg)) {
+              console.log('a')
               if (msg.mentions.users.size > 0) {
                 msg.mentions.users.map(u =>
                   u.send(msg.content.split('mensagem:')[1])
