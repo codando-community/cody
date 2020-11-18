@@ -1,32 +1,31 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const Discord = require("discord.js");
+const express = require('express');
+const Discord = require('discord.js');
 const app = express();
 
-const Avisos = require("./components/reactions/avisos");
-const Meme = require("./components/reactions/meme");
+const Avisos = require('./components/reactions/avisos');
+const Meme = require('./components/reactions/meme');
 
-const Forward = require("./components/sendMessage/forward");
-const Goodbye = require("./components/sendMessage/goodbye");
-const UserAndRoles = require("./components/sendMessage/userAndRoles");
-const Welcome = require("./components/sendMessage/welcome");
+const Forward = require('./components/sendMessage/forward');
+const Goodbye = require('./components/sendMessage/goodbye');
+const UserAndRoles = require('./components/sendMessage/userAndRoles');
+const Welcome = require('./components/sendMessage/welcome');
 
-const RoleManager = require("./components/role/RoleManager");
+const RoleManager = require('./components/role/RoleManager');
 
-const VoiceAudioManager = require("./components/Audio");
+const VoiceAudioManager = require('./components/Audio');
 
-const client = new Discord.Client();
-const instance = require("./api/instance")
+const client = new Discord.Client()
 
 client.login(process.env.DS_TOKEN);
 
-client.on("ready", () => {
-    process.env.SERVER_ID === "720760691677462588"
-      ? client.user.setActivity("O bot tá on!", { type: "LISTENING" }) && console.log('Em ambiente de produção!')
+client.on('ready', () => {
+    process.env.SERVER_ID === '720760691677462588'
+      ? client.user.setActivity('O bot tá on!', { type: 'LISTENING' }) && console.log('Em ambiente de produção!')
       : client.user.setActivity(
-          " na aula, talvez algumas coisas não funcionem!",
-          { type: "LISTENING" }
+          ' na aula, talvez algumas coisas não funcionem!',
+          { type: 'LISTENING' }
         ) && console.log('Em ambiente de desenvolvimento')
 
   //types : WATCHING, LISTENING, PLAYING, STREAMING
