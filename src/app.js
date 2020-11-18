@@ -18,7 +18,7 @@ const VoiceAudioManager = require('./components/Audio');
 
 const client = new Discord.Client()
 
-client.login(process.env.DS_TOKEN);
+client.login(process.env.DS_TOKEN);//
 
 client.on('ready', () => {
     process.env.SERVER_ID === '720760691677462588'
