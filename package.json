@@ -10,10 +10,12 @@
     "author": "maiconspa",
     "license": "ISC",
     "dependencies": {
+        "@cloudant/cloudant": "^4.3.0",
         "discord.js": "^12.2.0",
         "dotenv": "^5.0.1",
         "express": "^4.17.1",
-        "request": "^2.88.2"
+        "request": "^2.88.2",
+        "save": "^2.4.0"
     },
     "devDependencies": {
         "nodemon": "^2.0.6"
