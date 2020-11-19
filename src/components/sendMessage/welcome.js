@@ -6,7 +6,10 @@ module.exports = client => client.on('guildMemberAdd', member => {
       server.channels.cache
       .filter(channel => channel.id === process.env.CHANNEL_INICIO_ID)
       .map(channel =>
-        channel.send(`Bem vindx ao servidor ${member}!\nMe chamo Cody e estarei ajudando aqui no Codando!\nMande mensagem para alguém da diretoria ou algum organizador pedindo para te autenticarem. Dessa forma você poderá ter acesso aos outros canais e conteúdos :)`)
+        channel.send(`
+        Bem vindx ao servidor ${member}, aqui é o Cody. Fico muito feliz que você tenha aceitado fazer parte da nossa comunidade!\n
+        Para que você tenha acesso aos demais conteúdos do server, preciso que chame alguém da diretoria para te autenticar. Dessa forma confirmaremos que você é um aluno e te daremos acesso aos outros canais e conteúdos.\n
+        **Que a força da comunidade esteja com você!**🙂`)
       )
     )
 
