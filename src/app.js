@@ -37,15 +37,26 @@ client.on("ready", () => {
   //types : WATCHING, LISTENING, PLAYING, STREAMING
 });
 
-//instance.create();
+// instance.create();
 
-//let example = instance.select({name: 'TESTE'})
-// console.log(example)
-//example.name = "one piece"
+// var example;
 
-// instance.updateDocument(example);
+// instance.select({ name: "TESTE" }).then((result) => {
+//   example = result[0];
+//   //console.log("result: ", result);
+//   console.log("Exemplo: ", example);
+//   example.name = "one piece";
+//   console.log("depois: ", example);
+//   //instance.updateDocument(example).then();
+// });
 
 //console.log(example)
+// instance.select({ name: "one piece" }).then((result) => {
+//   console.log(result[0])
+//   instance.deleteDocument(result[0]);
+
+// })
+
 
 Avisos(client, activeServer);
 Meme(client, activeServer);
