@@ -1,11 +1,11 @@
-module.exports = client => client.on('message', msg => {
+module.exports = (client, activeServer) => client.on('message', msg => {
 
   const isDiretoriaMember = msg => {
 
     let result = false
 
     client.guilds.cache
-    .filter(server => server.id === process.env.SERVER_ID)
+    .filter(server => server.id === activeServer.server_id)
     .map(server => {
       server.roles.cache
       .filter(role => role.name.toLowerCase() === 'diretoria')
@@ -25,13 +25,13 @@ module.exports = client => client.on('message', msg => {
   const handleRole = (action, msg, array) => {
     const role = roleName => (
       client.guilds.cache
-        .find(g => g.id === process.env.SERVER_ID).roles.cache
+        .find(g => g.id === activeServer.server_id).roles.cache
         .find(role => role.name.toLowerCase() === roleName.toLowerCase())
     )
 
     const member = () => (
       client.guilds.cache
-        .find(g => g.id === process.env.SERVER_ID).members.cache
+        .find(g => g.id === activeServer.server_id).members.cache
         .find(m =>
           m.user.username === array[2].split('#')[0]
           && m.user.discriminator === array[2].split('#')[1]

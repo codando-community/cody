@@ -1,14 +1,14 @@
-module.exports = (client) =>
+module.exports = (client, activeServer) =>
   client.on("message", (msg) => {
     const channel = client.guilds.cache
-      .find((g) => g.id === process.env.SERVER_ID)
-      .channels.cache.find((ch) => ch.id == process.env.CHANNEL_TALKS_VOICE);
+      .find((g) => g.id === activeServer.server_id)
+      .channels.cache.find((ch) => ch.id == activeServer.voice_channel.talks);
 
     const isDiretoriaMember = (msg) => {
       let result = false;
 
       client.guilds.cache
-        .filter((server) => server.id === process.env.SERVER_ID)
+        .filter((server) => server.id === activeServer.server_id)
         .map((server) => {
           server.roles.cache
             .filter((role) => role.name.toLowerCase() === "diretoria")
@@ -58,9 +58,9 @@ module.exports = (client) =>
       }
     }
 
-    /*  const channel =   client.guilds.cache.find(g => g.id === process.env.SERVER_ID).channels.cache.find(ch => ch.id == process.env.CHANNEL_TALKS_VOICE);
+    /*  const channel =   client.guilds.cache.find(g => g.id === activeServer.server_id).channels.cache.find(ch => ch.id == activeServer.voice_channel.talks);
   channel.join()
-  const channelcaixa =   client.guilds.cache.find(g => g.id === process.env.SERVER_ID).channels.cache.find(ch => ch.id == process.env.CHANNEL_CAIXA_DE_ENTRADA);
+  const channelcaixa =   client.guilds.cache.find(g => g.id === activeServer.server_id).channels.cache.find(ch => ch.id == activeServer.text_channel.mensagens_cody);
   channel.members.map( u => console.log( u.user.username+'#' + u.user.discriminator) )
   if(newMember.member === oldMember.member) {
     channel.members.map( u => console.log(u.user.username+'#' + u.user.discriminator) )

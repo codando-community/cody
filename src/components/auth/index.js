@@ -12,7 +12,7 @@ const userData = {
 }
 
 // inicio da conversa de autenticação
-// module.exports = client => {
+// module.exports = (client, activeServer) => {
 //     client.on('message', msg => {
 //         if (matchPossibilities(msg.content, possibilities.autenticate) && msg.author !== client.user) {
 //             if(msg.channel.type == 'dm') {
@@ -30,7 +30,7 @@ const userData = {
 
 
 // método para capturar o curso do usuário
-const getCourse = client => {
+const getCourse = (client, activeServer) => {
   client.on('message', msg => {
     if (msg.author !== client.user) {
       if (matchPossibilities(msg.content, possibilities.courses)) {
@@ -42,7 +42,7 @@ const getCourse = client => {
 }
 
 // método para capturar o RA do usuário
-const getRA = client => {
+const getRA = (client, activeServer) => {
   client.on('message', msg => {
     if (msg.author != client.user) {
       if (msg.content.toLowerCase().indexOf("ra=") != -1) {
@@ -55,7 +55,7 @@ const getRA = client => {
 }
 
 // método para capturar a data de nascimento do usuário
-const getBirthDate = client => {
+const getBirthDate = (client, activeServer) => {
   client.on('message', msg => {
     if (msg.author != client.user) {
       if (msg.content.indexOf("-") != -1 && msg.channel.type == 'dm') {

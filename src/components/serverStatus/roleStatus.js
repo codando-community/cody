@@ -1,11 +1,11 @@
-module.exports = client => client.on('message', msg => {
+module.exports = (client, activeServer) => client.on('message', msg => {
 
   const isDiretoriaMember = msg => {
 
     let result = false
 
     client.guilds.cache
-    .filter(server => server.id === process.env.SERVER_ID)
+    .filter(server => server.id === activeServer.server_id)
     .map(server => {
       server.roles.cache
       .filter(role => role.name.toLowerCase() === 'diretoria')

@@ -19,10 +19,9 @@ const select = (selector={_id: {$gt: 0}}, fields=[], sort=[]) => {
     if (err) {
       throw err
     }
-
     console.log(result.docs)
+    return result.docs
   })
-
 }
 
 const  create = description => {
@@ -57,7 +56,26 @@ const  create = description => {
   });
 };
 
+
+
+// update a document
+const updateDocument = data =>  db.insert (data, function(err, body) {});
+
+
+const deleteDocument = function(callback) {
+  console.log("Deleting document 'mydoc'");
+
+  db.destroy(doc._id, doc._rev, function(err, data) {
+    console.log("Error:", err);
+    console.log("Data:", data);
+    callback(err, data);
+  });
+};
+
 module.exports = {
+  create,
   select,
-  create
+
+ // deleteDocument,
+  updateDocument
 }

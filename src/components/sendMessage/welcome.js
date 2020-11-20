@@ -1,7 +1,7 @@
-module.exports = client => client.on('guildMemberAdd', member => {
+module.exports = (client, activeServer) => client.on('guildMemberAdd', member => {
 
   client.guilds.cache
-    .filter(server => server.id === process.env.SERVER_ID)
+    .filter(server => server.id === activeServer.server_id)
     .map(server =>
       server.channels.cache
       .filter(channel => channel.id === process.env.CHANNEL_INICIO_ID)

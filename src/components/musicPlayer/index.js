@@ -1,4 +1,4 @@
-module.exports = client => client.on("message", async (message) => {
+module.exports = (client, activeServer) => client.on("message", async (message) => {
   const command = message.content.indexOf('!play') !== -1 ? 'play' : ''
 
   if(command === 'play') {

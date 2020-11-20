@@ -1,4 +1,4 @@
-module.exports = client => client.on('message', msg => {
+module.exports = (client, activeServer) => client.on('message', msg => {
   let emojiIDs = [
     '768621446392971277', //LogoCodando
     '768621842688638986', //MayTheCommunity
@@ -6,7 +6,7 @@ module.exports = client => client.on('message', msg => {
     '768622316648136714', //CodandoCommunity
   ]
 
-  msg.channel.id === process.env.CHANNEL_AVISOS_ID
+  msg.channel.id === activeServer.text_channel.avisos
     && msg.author !== client.user
     && client.emojis.cache
       .filter(emoji => emojiIDs.indexOf(emoji.id) > -1)
