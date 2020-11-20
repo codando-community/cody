@@ -16,6 +16,8 @@ const RoleManager = require('./components/role/RoleManager');
 
 const VoiceAudioManager = require('./components/Audio');
 
+const instance = require('./api/instance');
+
 const client = new Discord.Client()
 
 client.login(process.env.DS_TOKEN);//
@@ -31,7 +33,10 @@ client.on('ready', () => {
   //types : WATCHING, LISTENING, PLAYING, STREAMING
 })
 
-// instance.select()
+//instance.create();
+//instance.select({name: 'TESTE'})
+
+
 Avisos(client)
 Meme(client)
 Goodbye(client)
