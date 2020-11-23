@@ -17,7 +17,7 @@ const RoleManager = require("./components/role/RoleManager");
 const VoiceAudioManager = require("./components/Audio");
 
 const instance = require("./api/instance");
-const Read = require("./api/consultEmaiLDiscordId")
+const Read = require("./api/read")
 const client = new Discord.Client();
 
 const config = require("./config.json");
