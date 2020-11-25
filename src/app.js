@@ -66,7 +66,7 @@ Welcome(client, activeServer);
 RoleManager(client, activeServer);
 Forward(client, activeServer);
 VoiceAudioManager(client, activeServer);
-Read(client)
+Read(client, activeServer)
 app.listen(8080, () => {});
 
 // Auth(client)
