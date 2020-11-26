@@ -5,7 +5,7 @@ const cloudant = Cloudant({
   password: process.env.CLOUDANT_PASSWORD,
 });
 
-const db = cloudant.db.use("cody");
+const db = cloudant.db.use("codando");
 
 const select = (selector = { _id: { $gt: 0 } }, fields = [], sort = []) => {
   return new Promise((resolve, reject) => {
