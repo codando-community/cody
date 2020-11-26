@@ -1,46 +1,53 @@
 module.exports = (client, activeServer) => client.on('message', msg => {
+  const handleMention = (option, msg, idMember, roleName) => {
+    let role = client.guilds.cache.find(g => g.id === activeServer.server_id).roles.cache.find(role => role.name === roleName)
+    let member = client.guilds.cache.find(g => g.id === activeServer.server_id).members.cache.find(m => m.id === idMember)
 
-  const isDiretoriaMember = msg => {
+    switch (option) {
+      case 'add':
+        member.roles.add(role)
+          .then(
+            msg.reply(`cargo ${roleName} aplicado ao usuário ${member.user.username}`)
+          )
+          .catch(console.error)
+        break;
 
-    let result = false
+      case 'remove':
+        member.roles.remove(role).catch(console.error)
+        break;
 
-    client.guilds.cache
-    .filter(server => server.id === activeServer.server_id)
-    .map(server => {
-      server.roles.cache
-      .filter(role => role.name.toLowerCase() === 'diretoria')
-      .map(diretoria => roleId = diretoria.id)
+      case 'update':
+        // TODO
+        break;
 
-      server.members.cache
-      .map(member =>
-        member.user.username.toLowerCase() === msg.channel.recipient.username.toLowerCase()
-        && member.user.discriminator === msg.channel.recipient.discriminator
-        && (result=true)
-        )
-    })
+      default:
 
-    return result
+        break;
+    }
   }
 
-  const handleRole = (action, msg, array) => {
-    const role = roleName => (
-      client.guilds.cache
-        .find(g => g.id === activeServer.server_id).roles.cache
-        .find(role => role.name.toLowerCase() === roleName.toLowerCase())
-    )
+  /**
+   * Adiciona ou remove um cargo mencionado de um usuario não mencionado
+   * @param {String} action
+   * @param {String} msg
+   * @param {Array} array
+   */
+  const handleWithoutUserMention = (action, msg, array) => {
+    const member = () => {
+      let temp = array[1].split(' ')[0]
+      console.log('temp: ', temp)
 
-    const member = () => (
       client.guilds.cache
         .find(g => g.id === activeServer.server_id).members.cache
         .find(m =>
-          m.user.username === array[2].split('#')[0]
-          && m.user.discriminator === array[2].split('#')[1]
+          m.user.username === temp.split('#')[0]
+          && m.user.discriminator === temp.split('#')[1]
         )
-    )
+    }
 
     const Add = roleName => (
       member()
-        ? member().roles.add(role(roleName))
+        ? msg.mentions.roles.map(role => member().roles.add(role))
           .then(msg.reply(`cargo ${role(roleName).name} aplicado ao usuário ${member().user.username} 👍`))
           .catch(console.error)
         : msg.reply('Essa funcionalidade ainda não está pronta')
@@ -69,69 +76,35 @@ module.exports = (client, activeServer) => client.on('message', msg => {
     }
   }
 
-  if (msg.channel.type == 'dm') {
+  if (msg.channel.id === activeServer.text_channel.cody_bash) {
     if (msg.author !== client.user) {
       if (msg.content.toLowerCase().indexOf('role') != -1) {
-        msg.content.indexOf('--') != -1
-          && isDiretoriaMember(msg)
-          ? handleRole(
-            msg.content.split("--")[1].split(" ")[0],
-            msg,
-            msg.content.split(' @')
-          )
-          : msg.reply('Você não tem autorização para utilizar este comando, me leve para comer pizza e talvez você possa utilizá-lo 🍕😋')
+        if (msg.content.indexOf('--') != -1) {
+          if (msg.mentions.users.size === 1 && msg.mentions.roles.size === 1) {
+            // adicionar um cargo mencionado ao usuario mencionado
+            msg.mentions.roles.map(role =>
+              msg.mentions.users.map(user =>
+                user.role !== role
+                && user !== client.user
+                && handleMention(msg.content.split("--")[1].split(" ")[0], msg, user.id, role.name)
+              )
+            )
+          } else if (msg.mentions.users.size === 0 && msg.mentions.roles.size === 2) {
+            // TODO adicionar o segundo cargo aos usuarios pertencentes ao primeiro cargo
+          } else if (msg.mentions.users.size === 0 && msg.mentions.roles.size === 1) {
+            // adicionar um cargo mencionadoa um usuario que não tem acesso ao canal
+            // fazendo um split no @[username]#[discriminator] e pegando o seu id
+
+            handleWithoutUserMention(
+              msg.content.split("--")[1].split(" ")[0],
+              msg,
+              msg.content.split(' @')
+            )
+          } else {
+            // aleatoriedades, ta na disney mano
+          }
+        }
       }
     }
   }
 })
-
-
-// content.split("--")[1].split(" ")[0]
-
-        // )
-        // if (msg.content.toLowerCase().indexOf('--add') != -1) {
-
-        //     if (msg.mentions.users.size > 0) {
-        //       if (msg.mentions.roles.size > 0) {
-        //         msg.mentions.roles.map(role =>
-        //           msg.mentions.users.map(user =>
-        //             user.role !== role && user !== client.user && handleRole('add', msg, 'batata', role.name)
-        //           )
-        //         )
-        //       } else {
-        //         msg.reply('nao tem menção a cargo')
-        //       }
-        //     } else {
-        //       msg.reply('sem usuario mencionado')
-        //     }
-        //   } else if (msg.content.toLowerCase().indexOf('--remove') != -1) {
-        //     if (msg.mentions.users.size > 0) {
-        //       if (msg.mentions.roles.size > 0) {
-        //         msg.mentions.roles.map(role =>
-        //           msg.mentions.users.map(user =>
-        //             user.role !== role && user !== client.user && handleRole('remove', msg, user.id, role.name)
-        //           )
-        //         )
-        //       } else {
-        //         msg.reply('nao tem menção a cargo')
-        //       }
-        //     } else {
-        //       msg.reply('sem usuario mencionado')
-        //     }
-        //   } else if (msg.content.toLowerCase().indexOf('--update') != -1) {
-        //     if (msg.mentions.users.size > 0) {
-        //       if (msg.mentions.roles.size > 0) {
-        //         msg.mentions.roles.map(role =>
-        //           msg.mentions.users.map(user =>
-        //             user.role !== role && user !== client.user && handleRole('update', msg, user.id, role.name)
-        //           )
-        //         )
-        //       } else {
-        //         msg.reply('nao tem menção a cargo')
-        //       }
-        //     } else {
-        //       msg.reply('sem usuario mencionado')
-        //     }
-        //   } else {
-        //     msg.reply('update não pronto')
-        //   }

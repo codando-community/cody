@@ -21,7 +21,6 @@ const select = (selector = { _id: { $gt: 0 } }, fields = [], sort = []) => {
           return reject(err);
         }
         return resolve(result.docs);
-        //return result.docs
       }
     );
   });
@@ -29,25 +28,9 @@ const select = (selector = { _id: { $gt: 0 } }, fields = [], sort = []) => {
 
 const create = (data) => {
   return new Promise((resolve, reject) => {
-
-    let example = {
-      registration: 679027,
-      name: "TESTE",
-      type: "TESTE",
-      university: "Universidade do Sul de Santa Catarina",
-      course: "Sistemas de Informação",
-      campus: "Pedra Branca",
-      date_of_birth: "08/06/1985",
-      contact: {
-        email: "Jesus.miguel@live.com ",
-        cell_phone: 3423423,
-        discord: "TESTE",
-        id_discord: "123123123121312313",
-      },
-    };
     db.insert(data, (err, result) => {
       if (err) {
-        logger.error("Error occurred: " + err.message, "create()");
+        console.error("Error occurred: " + err.message, "create()");
         reject(err);
       } else {
         resolve({
@@ -59,12 +42,11 @@ const create = (data) => {
   });
 };
 
-// update a document
 const updateDocument = (data) => {
   return new Promise((resolve, reject) => {
     db.insert(data, (err, result) => {
       if (err) {
-        logger.error("Error occurred: " + err.message, "create()");
+        console.error("Error occurred: " + err.message, "create()");
         reject(err);
       } else {
         resolve({
