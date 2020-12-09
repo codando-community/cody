@@ -15,6 +15,7 @@ const Welcome = require("./components/sendMessage/welcome");
 const RoleManager = require("./components/role/RoleManager");
 
 const VoiceAudioManager = require("./components/Audio");
+const RoleStatus = require("./components/serverStatus/roleStatus")
 const Read = require("./api/read")
 const client = new Discord.Client();
 
@@ -41,4 +42,5 @@ RoleManager(client, activeServer);
 Forward(client, activeServer);
 VoiceAudioManager(client, activeServer);
 Read(client, activeServer)
+RoleStatus(client, activeServer)
 app.listen(8080, () => {});
