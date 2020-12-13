@@ -1,4 +1,4 @@
-const instance = require("./instance");
+const instance = require("../../../database");
 
 module.exports = (client, activeServer) =>
   client.on("message", (msg) => {

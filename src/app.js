@@ -4,19 +4,19 @@ const express = require("express");
 const Discord = require("discord.js");
 const app = express();
 
-const Avisos = require("./components/reactions/avisos");
-const Meme = require("./components/reactions/meme");
+const Avisos = require("./events/reactions/avisos");
+const Meme = require("./events/reactions/meme");
 
-const Forward = require("./components/sendMessage/forward");
-const Goodbye = require("./components/sendMessage/goodbye");
-const UserAndRoles = require("./components/sendMessage/userAndRoles");
-const Welcome = require("./components/sendMessage/welcome");
+const Forward = require("./events/sendMessage/forward");
+const Goodbye = require("./events/sendMessage/goodbye");
+const UserAndRoles = require("./events/sendMessage/userAndRoles");
+const Welcome = require("./events/sendMessage/welcome");
 
-const RoleManager = require("./components/role/RoleManager");
+const RoleManager = require("./events/role/RoleManager");
 
-const VoiceAudioManager = require("./components/Audio");
-const RoleStatus = require("./components/serverStatus/roleStatus")
-const Read = require("./api/read")
+const VoiceAudioManager = require("./events/Audio");
+const RoleStatus = require("./events/serverStatus/roleStatus")
+const Read = require("./events/message/sendMessage/read")
 const client = new Discord.Client();
 
 const config = require("./config.json");
