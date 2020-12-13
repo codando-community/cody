@@ -1,103 +1,51 @@
-const instance = require("../../../database");
+const instance = require('../../../database');
 
-module.exports = (client, activeServer) =>
-  client.on("message", (msg) => {
+module.exports = (msg) => {
+  const paramValue = msg.content.toLowerCase().split(' ')[2]
+  paramValue.replace('"', '').trim()
 
-    const Email = () => {
-      instance
-        .select({
-          contact: {
-            email: msg.content.substring(msg.content.lastIndexOf(" ")).trim(),
-          },
-        })
-        .then((result) => {
-          console.log('result: ', result)
+  const Select = selectObject => {
+    instance
+      .select({
+        contact: selectObject
+      })
+      .then(result => {
+        const { name, university, campus, email, registration, cell_phone, date_of_birth } = result[0]
 
-          msg.reply(
-              `Nome: ${result[0].name}` +
-              `\nUniversidade: ${result[0].university}` +
-              `\nCampus: ${result[0].campus}` +
-              `\nR.A: ${result[0].registration}` +
-              `\nTelefone: ${result[0].contact.cell_phone}` +
-              `\nData de nascimento: ${result[0].date_of_birth}`
-            )
-        })
-        .catch((err) => {
-          msg.reply("Aluno não encontrado.");
-        });
-    };
+        msg.reply(
+          `Nome: ${name}` +
+          `\nUniversidade: ${university}`+
+          `\nCampus: ${campus}`+
+          `\nEmail: ${email}`+
+          `\nR.A: ${registration}`+
+          `\nTelefone: ${cell_phone}`+
+          `\nData de nascimento: ${date_of_birth}`
+        )
+      })
+      .catch((err) => {
+        msg.reply("Aluno não encontrado.");
+      });
+  };
 
-    const RA = () => {
-      instance
-        .select({
-          registration: Number(
-            msg.content.substring(msg.content.lastIndexOf(" ")).trim()
-          ),
-        })
-        .then((result) => {
-          console.log(result);
-          msg.reply(
-            `Nome: ${result[0].name}` +
-            `\nUniversidade: ${result[0].university}` +
-            `\nCampus: ${result[0].campus}` +
-            `\nEmail: ${result[0].contact.email}` +
-            `\nTelefone: ${result[0].contact.cell_phone}` +
-            `\nData de nascimento: ${result[0].date_of_birth}`
-          );
-        })
-        .catch((err) => {
-          msg.reply("Aluno não encontrado.");
-        });
-    };
+  switch (msg.content.toLowerCase().split(' ')[1]) {
+    case '--email':
+      Select({email: paramValue})
+      break;
 
-    const Discord = () => {
-      instance
-        .select({
-          contact: {
-            discord: msg.content.substring(msg.content.lastIndexOf(" ")).trim(),
-          },
-        })
-        .then((result) => {
-          console.log('(discord) result:', result)
-          msg.reply(
-            `Nome: ${result[0].name}` +
-            `\nUniversidade: ${result[0].university}` +
-            `\nCampus: ${result[0].campus}` +
-            `\nEmail: ${result[0].contact.email}` +
-            `\nTelefone: ${result[0].contact.cell_phone}` +
-            `\nData de nascimento: ${result[0].date_of_birth}`
-          )
-        })
-        .catch((err) => {
-          msg.reply("Aluno não encontrado.");
-        })
-    };
+    case '--ra':
+      Select({registration: paramValue})
+      break;
 
-    if (msg.channel.id === activeServer.text_channel.cody_bash) {
-      if (msg.author !== client.user) {
-        if (msg.content.toLowerCase().indexOf("read") != -1) {
+    case '--discord':
+      Select({discord: paramValue})
+      break;
 
-          switch (msg.content.toLowerCase().trim().split(" ")[1]) {
-            case "email":
-              Email();
-              break;
-
-            case "r.a":
-              RA();
-              break;
-
-            case "discord":
-              Discord();
-              break;
-
-            default:
-              msg.reply(
-                "erro: parâmetro não encontrado, tente read [discord email r.a] [informação] "
-              );
-              break;
-          }
-
-        }
-      }
-    }
-  });
+    default:
+      msg.reply(
+        'erro: parâmetro não encontrado, tente:' +
+        '\nread [--discord, --email, --ra] [informação]' +
+        '\nread --email "teste@email.com"'
+      );
+      break;
+  }
+}

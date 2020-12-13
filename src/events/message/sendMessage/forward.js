@@ -1,4 +1,4 @@
-module.exports = (client, activeServer) => client.on('message', msg => {
+module.exports = (client, activeServer, msg) => {
   const channel = client.guilds.cache
     .find(g => g.id === activeServer.server_id).channels.cache
     .find(ch => ch.id == activeServer.text_channel.mensagens_cody)
@@ -9,4 +9,4 @@ module.exports = (client, activeServer) => client.on('message', msg => {
     + msg.channel.recipient.discriminator
     + "\n ** Conteúdo: **"
     + msg.content)
-})
+}

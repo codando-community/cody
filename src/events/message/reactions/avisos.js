@@ -1,4 +1,4 @@
-module.exports = (client, activeServer) => client.on('message', msg => {
+module.exports = (client, activeServer, msg) => {
   let emojiIDs = [
     '768621446392971277', //LogoCodando
     '768621842688638986', //MayTheCommunity
@@ -12,4 +12,4 @@ module.exports = (client, activeServer) => client.on('message', msg => {
       .filter(emoji => emojiIDs.indexOf(emoji.id) > -1)
       .map(emoji => msg.react(emoji))
 
-})
+}

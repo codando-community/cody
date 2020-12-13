@@ -1,4 +1,4 @@
-module.exports = (client, activeServer) => client.on('message', msg => {
+module.exports = (client, activeServer, msg) => {
   const handlRole = (option, msg, idMember, roleName) => {
     let role = client.guilds.cache.find(g => g.id === activeServer.server_id).roles.cache.find(role => role.name === roleName)
     let member = client.guilds.cache.find(g => g.id === activeServer.server_id).members.cache.find(m => m.id === idMember)
@@ -30,26 +30,20 @@ module.exports = (client, activeServer) => client.on('message', msg => {
     }
   }
 
-  if (msg.channel.id === activeServer.text_channel.cody_bash) {
-    if (msg.author !== client.user) {
-      if (msg.content.toLowerCase().indexOf('role') != -1) {
-        if (msg.content.indexOf('--') != -1) {
-          if (msg.mentions.users.size === 1 && msg.mentions.roles.size === 1) {
-            // adicionar um cargo mencionado ao usuario mencionado
-            msg.mentions.roles.map(role =>
-              msg.mentions.users.map(user =>
-                user.role !== role
-                && user !== client.user
-                && handlRole(msg.content.split("--")[1].split(" ")[0], msg, user.id, role.name)
-              )
-            )
-          } else if (msg.mentions.users.size === 0 && msg.mentions.roles.size === 2) {
-            // TODO adicionar o segundo cargo aos usuarios pertencentes ao primeiro cargo
-          } else {
-            // aleatoriedades, ta na disney mano
-          }
-        }
-      }
+  if (msg.content.indexOf('--') != -1) {
+    if (msg.mentions.users.size === 1 && msg.mentions.roles.size === 1) {
+      // adicionar um cargo mencionado ao usuario mencionado
+      msg.mentions.roles.map(role =>
+        msg.mentions.users.map(user =>
+          user.role !== role
+          && user !== client.user
+          && handlRole(msg.content.split("--")[1].split(" ")[0], msg, user.id, role.name)
+        )
+      )
+    } else if (msg.mentions.users.size === 0 && msg.mentions.roles.size === 2) {
+      // TODO adicionar o segundo cargo aos usuarios pertencentes ao primeiro cargo
+    } else {
+      // aleatoriedades, ta na disney mano
     }
   }
-})
+}
