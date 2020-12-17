@@ -1,2 +1,2 @@
 const Welcome = require("./welcome");
-Welcome(client, activeServer);
+module.exports = (client, activeServer) => Welcome(client, activeServer);

@@ -8,9 +8,10 @@ module.exports = (client, activeServer, msg) => {
       channel.members.map(u =>
         u.send(
           msg.content
-            .replace('--m', '')
+            .replace('--message', '')
             .replace('--list', '')
             .replace('voice', '')
+            .replace('"', '')
             .replace('"', '')
             .trim()
         )

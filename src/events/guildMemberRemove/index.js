@@ -1,2 +1,2 @@
 const Goodbye = require("./goodbye");
-Goodbye(client, activeServer);
+module.exports = (client, activeServer) => Goodbye(client, activeServer);

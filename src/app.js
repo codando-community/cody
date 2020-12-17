@@ -1,22 +1,14 @@
 require("dotenv").config();
 
-const express = require("express");
 const Discord = require("discord.js");
-const app = express();
+const express = require("express");
+const Express = express();
 
-const Avisos = require("./events/reactions/avisos");
-const Meme = require("./events/reactions/meme");
+const GuildMemberAdd = require('./events/guildMemberAdd')
+const GuildMemberRemove = require('./events/guildMemberRemove')
+const Message = require('./events/message')
+const Ready = require('./events/ready')
 
-const Forward = require("./events/sendMessage/forward");
-const Goodbye = require("./events/sendMessage/goodbye");
-const UserAndRoles = require("./events/sendMessage/userAndRoles");
-const Welcome = require("./events/sendMessage/welcome");
-
-const RoleManager = require("./events/role/RoleManager");
-
-const VoiceAudioManager = require("./events/Audio");
-const RoleStatus = require("./events/serverStatus/roleStatus")
-const Read = require("./events/message/sendMessage/read")
 const client = new Discord.Client();
 
 const config = require("./config.json");
@@ -24,23 +16,10 @@ const activeServer = config.dev;
 
 client.login(process.env.DS_TOKEN);
 
-client.on("ready", () => {
-  config.prod.server_id === activeServer.server_id
-    ? client.user.setActivity("instagram.com/codando.community", { type: "WATCHING" })
-      && console.log("Em ambiente de produção!.")
+Ready(client, activeServer, config)
 
-    : client.user.setActivity("flow.page/codando.community",{ type: "WATCHING" })
-      && console.log("Em ambiente de desenvolvimento.");
-});
+Message(client, activeServer)
+GuildMemberAdd(client, activeServer)
+GuildMemberRemove(client, activeServer)
 
-Avisos(client, activeServer);
-Meme(client, activeServer);
-Goodbye(client, activeServer);
-UserAndRoles(client, activeServer);
-Welcome(client, activeServer);
-RoleManager(client, activeServer);
-Forward(client, activeServer);
-VoiceAudioManager(client, activeServer);
-Read(client, activeServer)
-RoleStatus(client, activeServer)
-app.listen(8080, () => {});
+Express.listen(8080, () => {});

@@ -1,24 +1,25 @@
 const instance = require('../../../database');
 
 module.exports = (msg) => {
-  const paramValue = msg.content.toLowerCase().split(' ')[2]
-  paramValue.replace('"', '').trim()
+  const paramValue = msg.content.split(' ')[2].replace('\"', '').replace('\"', '').trim()
+
+
 
   const Select = selectObject => {
+    console.log(selectObject)
     instance
-      .select({
-        contact: selectObject
-      })
+      .select(selectObject)
       .then(result => {
-        const { name, university, campus, email, registration, cell_phone, date_of_birth } = result[0]
+        const { name, university, campus, registration, date_of_birth, contact } = result[0]
 
         msg.reply(
           `Nome: ${name}` +
           `\nUniversidade: ${university}`+
           `\nCampus: ${campus}`+
-          `\nEmail: ${email}`+
+          `\nEmail: ${contact.email}`+
           `\nR.A: ${registration}`+
-          `\nTelefone: ${cell_phone}`+
+          `\nTelefone: ${contact.cell_phone}`+
+          `\nDiscord: ${contact.discord}`+
           `\nData de nascimento: ${date_of_birth}`
         )
       })
@@ -29,22 +30,22 @@ module.exports = (msg) => {
 
   switch (msg.content.toLowerCase().split(' ')[1]) {
     case '--email':
-      Select({email: paramValue})
+      Select({contact: {email: paramValue}})
       break;
 
     case '--ra':
-      Select({registration: paramValue})
+      Select({registration: Number(paramValue)})
       break;
 
     case '--discord':
-      Select({discord: paramValue})
+      Select({contact: {discord: paramValue}})
       break;
 
     default:
       msg.reply(
         'erro: parâmetro não encontrado, tente:' +
-        '\nread [--discord, --email, --ra] [informação]' +
-        '\nread --email "teste@email.com"'
+        '\nread [--discord, --email, --ra] "informação"' +
+        '\nread --ra "12345678"'
       );
       break;
   }
