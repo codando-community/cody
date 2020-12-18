@@ -1,9 +1,8 @@
 const instance = require('../../../database');
 
 module.exports = (msg) => {
-  const paramValue = msg.content.split(' ')[2].replace('\"', '').replace('\"', '').trim()
-
-
+  const parameter = msg.content.toLowerCase().split(' ')[1]
+  const value = msg.content.split('"')[1].trim()
 
   const Select = selectObject => {
     console.log(selectObject)
@@ -13,7 +12,7 @@ module.exports = (msg) => {
         const { name, university, campus, registration, date_of_birth, contact } = result[0]
 
         msg.reply(
-          `Nome: ${name}` +
+          `Nome: ${name}`+
           `\nUniversidade: ${university}`+
           `\nCampus: ${campus}`+
           `\nEmail: ${contact.email}`+
@@ -28,17 +27,17 @@ module.exports = (msg) => {
       });
   };
 
-  switch (msg.content.toLowerCase().split(' ')[1]) {
+  switch (parameter) {
     case '--email':
-      Select({contact: {email: paramValue}})
+      Select({contact: {email: value}})
       break;
 
     case '--ra':
-      Select({registration: Number(paramValue)})
+      Select({registration: Number(value)})
       break;
 
     case '--discord':
-      Select({contact: {discord: paramValue}})
+      Select({contact: {discord: value}})
       break;
 
     default:

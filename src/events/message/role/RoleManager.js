@@ -19,14 +19,6 @@ module.exports = (client, activeServer, msg) => {
           )
           .catch(console.error)
         break;
-
-      case 'update':
-        // TODO
-        break;
-
-      default:
-
-        break;
     }
   }
 

@@ -1,7 +1,7 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const Discord = require("discord.js");
-const express = require("express");
+const Discord = require('discord.js');
+const express = require('express');
 const Express = express();
 
 const GuildMemberAdd = require('./events/guildMemberAdd')
@@ -10,14 +10,12 @@ const Message = require('./events/message')
 const Ready = require('./events/ready')
 
 const client = new Discord.Client();
-
-const config = require("./config.json");
+const config = require('./config.json');
 const activeServer = config.dev;
 
 client.login(process.env.DS_TOKEN);
 
 Ready(client, activeServer, config)
-
 Message(client, activeServer)
 GuildMemberAdd(client, activeServer)
 GuildMemberRemove(client, activeServer)
