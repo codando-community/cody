@@ -21,4 +21,3 @@ GuildMemberAdd(client, activeServer)
 GuildMemberRemove(client, activeServer)
 
 Express.listen(8080, () => {});
-// b
