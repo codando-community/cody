@@ -5,6 +5,9 @@ module.exports = (client, activeServer) => client.on('message', msg => {
       const Action = require('./sendMessage/forward')
       Action(client, activeServer, msg)
 
+      const TesteAuth = require('./sendMessage/auth')
+      TesteAuth(client, activeServer, msg)
+
     } else if (msg.channel.id === activeServer.text_channel.avisos || msg.channel.id === activeServer.text_channel.memes) {
 
       const Reaction = msg.channel.id === activeServer.text_channel.avisos
@@ -31,7 +34,7 @@ module.exports = (client, activeServer) => client.on('message', msg => {
           break;
 
         case 'voice':
-          Path = require('./Audio')
+          Path = require('./audio')
           Path(client, activeServer, msg)
           break;
 
@@ -41,6 +44,11 @@ module.exports = (client, activeServer) => client.on('message', msg => {
           break;
       }
 
+    }
+  } else {
+    if (msg.channel.type === 'dm') {
+      const Action = require('./sendMessage/auth')
+      Action(client, activeServer, msg)
     }
   }
 });
