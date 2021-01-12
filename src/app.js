@@ -1,3 +1,6 @@
+/**
+ *
+ */
 require('dotenv').config();
 
 const Discord = require('discord.js');
@@ -12,7 +15,6 @@ const Ready = require('./events/ready')
 const client = new Discord.Client();
 const config = require('./config.json');
 const activeServer = config.prod;
-
 client.login(process.env.DS_TOKEN);
 
 Ready(client, activeServer, config)
