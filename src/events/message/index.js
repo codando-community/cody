@@ -1,12 +1,20 @@
 module.exports = (client, activeServer) => client.on('message', msg => {
   if (msg.author !== client.user) {
     if (msg.channel.type === 'dm') {
+      console.log('msg.content: ', msg.content.toLowerCase())
+      if (msg.content.toLowerCase().indexOf('Autenticar ') !== -1) {
+        const Action = require('./sendMessage/auth')
+        Action(client, activeServer, msg)
 
-      const Action = require('./sendMessage/forward')
-      Action(client, activeServer, msg)
+      } else if (msg.content.toLowerCase().indexOf('Conversar com um Organizador') !== -1) {
+        const Action = require('./sendMessage/forward')
+        console.log('activeServer.text_channel.auth: ', activeServer.text_channel.auth)
+        Action(client, activeServer, msg, activeServer.text_channel.auth)
 
-      const TesteAuth = require('./sendMessage/auth')
-      TesteAuth(client, activeServer, msg)
+      } else {
+        const Action = require('./sendMessage/forward')
+        Action(client, activeServer, msg, activeServer.text_channel.mensagens_cody)
+      }
 
     } else if (msg.channel.id === activeServer.text_channel.avisos || msg.channel.id === activeServer.text_channel.memes) {
 
@@ -44,11 +52,6 @@ module.exports = (client, activeServer) => client.on('message', msg => {
           break;
       }
 
-    }
-  } else {
-    if (msg.channel.type === 'dm') {
-      const Action = require('./sendMessage/auth')
-      Action(client, activeServer, msg)
     }
   }
 });
