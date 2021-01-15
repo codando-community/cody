@@ -9,7 +9,7 @@ module.exports = (msg) => {
     instance
       .select(selectObject)
       .then(result => {
-        const { name, university, campus, registration, date_of_birth, contact } = result[0]
+        const { name, university, campus, registration, date_of_birth, contact, type } = result[0]
 
         msg.reply(
           `Nome: ${name}`+
@@ -17,6 +17,7 @@ module.exports = (msg) => {
           `\nCampus: ${campus}`+
           `\nEmail: ${contact.email}`+
           `\nR.A: ${registration}`+
+          `\nCargo: ${type}`+
           `\nTelefone: ${contact.cell_phone}`+
           `\nDiscord: ${contact.discord}`+
           `\nData de nascimento: ${date_of_birth}`
