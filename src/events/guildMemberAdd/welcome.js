@@ -6,12 +6,13 @@ module.exports = (client, activeServer, member) => {
     + 'Assim vou ter certeza que você é um aluno e vou deixar você ter acesso aos outros canais do servidor. Te vejo no pv :smile:'
     + '\n\n**Que a força da comunidade esteja com você!**'
 
-  const dmMessage = 'Oi, sou o Cody, acabei de falar com você no canal bem-vindo e também já nos falamos antes pelo WhatsApp.'
-    + ' Agora estou aqui pra te ajudar a ter acesso aos outros canais e conteúdos da Comunidade. Escolhe com quem gostaria de ser autenticado.'
-    + ' MANDE EXATAMENTE:'
-    + '\n\n- Autenticar SEU_RA'
-    + '\n- Conversar com um Organizador' +
-    '\n\nDúvidas sobre autenticação? clique no link: [link do notion]'
+  const dmMessage = 'Oi, sou o Cody, acabei de falar com você no canal bem-vindo.'
+    + ' Agora vou te ajudar com o acesso aos outros canais e conteúdos da Comunidade.'
+    + ' COPIE EXATAMENTE uma das mensagens a baixo, de acordo com o desejado, para prosseguimos:'
+    + '\n\n**Autenticar SEU_RA**'
+    + '\nou'
+    + '\n**Conversar com um Organizador**' +
+    '\n\nDúvidas sobre autenticação? clique no link: https://www.notion.so/D-vidas-Autentica-o-59cebf827d5e4abf98e95633d13abbab'
 
   const currentServer = client.guilds.cache
     .find(server => server.id === member.guild.id)

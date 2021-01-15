@@ -5,7 +5,6 @@ module.exports = (msg) => {
   const value = msg.content.split('"')[1].trim()
 
   const Select = selectObject => {
-    console.log(selectObject)
     instance
       .select(selectObject)
       .then(result => {

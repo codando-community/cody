@@ -1,5 +1,8 @@
+const instance = require("../../database")
+
 module.exports = (client, activeServer, member) => {
   const message = `O aluno *${member.user.username}#${member.user.discriminator}* saiu do server!`
+  const errorMessage = `erro ao remover *${member.user.username}#${member.user.discriminator}* do banco de dados`
 
   const currentServer = client.guilds.cache
     .find(server => server.id === member.guild.id)
@@ -11,5 +14,15 @@ module.exports = (client, activeServer, member) => {
 
     codyInboxChannel
       && codyInboxChannel.send(message)
+
+    instance.select({ contact: { discord: `${member.user.username}#${member.user.discriminator}`}})
+      .then(result => {
+        data = result[0]
+        data.active = false
+        data.join_auth = false
+
+        instance.updateDocument(data)
+      })
+      .catch(() => codyInboxChannel.send(errorMessage))
   }
 }

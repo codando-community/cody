@@ -1,5 +1,4 @@
 module.exports = (client, activeServer, msg, channelID) => {
-  console.log('channelID: ', channelID)
   const channel = client.guilds.cache
     .find(g => g.id === activeServer.server_id).channels.cache
     .find(ch => ch.id == channelID)
@@ -25,11 +24,20 @@ module.exports = (client, activeServer, msg, channelID) => {
         + " gostaria de esclarecer algumas duvidas antes de ser autenticado")
     }
   } else {
-    channel.send(
-      "** Mensagem enviada por **: "
-      + msg.channel.recipient.username + "#"
-      + msg.channel.recipient.discriminator
-      + "\n ** Conteúdo: **"
-      + msg.content)
+    if (msg.content.toLowerCase().indexOf('sim, está correto ') !== -1) {
+      channel.send(
+        "Aluno "
+        + msg.channel.recipient.username + "#"
+        + msg.channel.recipient.discriminator
+        + " autenticado com sucesso!")
+
+    } else {
+      channel.send(
+        "** Mensagem enviada por **: "
+        + msg.channel.recipient.username + "#"
+        + msg.channel.recipient.discriminator
+        + "\n ** Conteúdo: **"
+        + msg.content)
+    }
   }
 }

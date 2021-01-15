@@ -1,26 +1,21 @@
 module.exports = (client, activeServer) => client.on('message', msg => {
   if (msg.author !== client.user) {
     if (msg.channel.type === 'dm') {
-      //console.log('msg.content: ', msg.content.toLowerCase())
       if (msg.content.toLowerCase().indexOf('autenticar ') !== -1) {
         const Action = require('./sendMessage/auth')
         Action(client, activeServer, msg)
 
       } else if (msg.content.toLowerCase().indexOf('conversar com um organizador') !== -1) {
         const Action = require('./sendMessage/forward')
-        //console.log('activeServer.text_channel.auth: ', activeServer.text_channel.auth)
         Action(client, activeServer, msg, activeServer.text_channel.auth)
 
       } else if (msg.content.toLowerCase().indexOf('sim, está correto ') !== -1) {
         const Action = require('./sendMessage/auth')
         Action(client, activeServer, msg)
         //Executar apenas depois da anterior o envio de uma mensagem no canal 'caixa-de-entrada' contendo o seguinte texto 'Aluno davibrandao18#9821 autenticado com sucesso!'
-        //Action = require('./sendMessage/forward')
-        //Action(client, activeServer, msg, activeServer.text_channel.mensagens_cody)
 
       } else if (msg.content.toLowerCase().indexOf('não, há divergências') !== -1) {
         const Action = require('./sendMessage/forward')
-        //console.log('activeServer.text_channel.auth: ', activeServer.text_channel.auth)
         Action(client, activeServer, msg, activeServer.text_channel.auth)
 
       } else {
@@ -48,7 +43,7 @@ module.exports = (client, activeServer) => client.on('message', msg => {
           Path(msg)
           break;
 
-        case 'send' :
+        case 'send':
           Path = require('./sendMessage/userAndRoles')
           Path(client, msg)
           break;
@@ -60,6 +55,11 @@ module.exports = (client, activeServer) => client.on('message', msg => {
 
         case 'server':
           Path = require('./serverStatus/roleStatus')
+          Path(client, activeServer, msg)
+          break;
+
+        case 'auth':
+          Path = require('./auth')
           Path(client, activeServer, msg)
           break;
       }
