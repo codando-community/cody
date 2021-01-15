@@ -1,3 +1,10 @@
+/**
+ * Bancos:
+ * codando
+ * codando_test
+ * codando_backup
+ */
+
 const Cloudant = require("@cloudant/cloudant");
 
 const cloudant = Cloudant({
