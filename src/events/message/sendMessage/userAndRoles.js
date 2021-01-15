@@ -8,8 +8,6 @@ module.exports = (client, msg) => {
       .replace('"', '')
       .trim()
 
-    console.log("->> ", message)
-
     if (msg.mentions.users.size > 0) {
       msg.mentions.users.map(u =>
         u.send(message)
@@ -27,5 +25,4 @@ module.exports = (client, msg) => {
       ':face_with_symbols_over_mouth: tem um erro de sintaxe aí meu caro, faz assim:'
       +'\n send @cargo_ou_usuario --message "mensagem né"')
   }
-
 }
