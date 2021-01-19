@@ -2,11 +2,11 @@ module.exports = (client, msg) => {
 
   if (msg.content.toLowerCase().indexOf("--message") != -1) {
     let message = msg.content.split('--message')[1]
-    const reg = new RegExp(/(".*?")/g)
-    message = reg.exec(message)[0]
-      .replace('"', '')
-      .replace('"', '')
-      .trim()
+    const getMessage = new RegExp(/(".*?")/g)
+
+    message = message.match(getMessage)[0]
+
+    message = message.replace('"', '').replace('"', '').trim()
 
     if (msg.mentions.users.size > 0) {
       msg.mentions.users.map(u =>

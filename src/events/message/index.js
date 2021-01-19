@@ -1,27 +1,27 @@
 module.exports = (client, activeServer) => client.on('message', msg => {
   if (msg.author !== client.user) {
     if (msg.channel.type === 'dm') {
-      if (msg.content.toLowerCase().indexOf('autenticar ') !== -1) {
-        const Action = require('./sendMessage/auth')
-        Action(client, activeServer, msg)
+      // if (msg.content.toLowerCase().indexOf('autenticar ') !== -1) {
+      //   const Action = require('./sendMessage/auth')
+      //   Action(client, activeServer, msg)
 
-      } else if (msg.content.toLowerCase().indexOf('conversar com um organizador') !== -1) {
-        const Action = require('./sendMessage/forward')
-        Action(client, activeServer, msg, activeServer.text_channel.auth)
+      // } else if (msg.content.toLowerCase().indexOf('conversar com um organizador') !== -1) {
+      //   const Action = require('./sendMessage/forward')
+      //   Action(client, activeServer, msg, activeServer.text_channel.auth)
 
-      } else if (msg.content.toLowerCase().indexOf('sim, está correto ') !== -1) {
-        const Action = require('./sendMessage/auth')
-        Action(client, activeServer, msg)
-        //Executar apenas depois da anterior o envio de uma mensagem no canal 'caixa-de-entrada' contendo o seguinte texto 'Aluno davibrandao18#9821 autenticado com sucesso!'
+      // } else if (msg.content.toLowerCase().indexOf('sim, está correto ') !== -1) {
+      //   const Action = require('./sendMessage/auth')
+      //   Action(client, activeServer, msg)
+      //   //Executar apenas depois da anterior o envio de uma mensagem no canal 'caixa-de-entrada' contendo o seguinte texto 'Aluno davibrandao18#9821 autenticado com sucesso!'
 
-      } else if (msg.content.toLowerCase().indexOf('não, há divergências') !== -1) {
-        const Action = require('./sendMessage/forward')
-        Action(client, activeServer, msg, activeServer.text_channel.auth)
+      // } else if (msg.content.toLowerCase().indexOf('não, há divergências') !== -1) {
+      //   const Action = require('./sendMessage/forward')
+      //   Action(client, activeServer, msg, activeServer.text_channel.auth)
 
-      } else {
-        const Action = require('./sendMessage/forward')
-        Action(client, activeServer, msg, activeServer.text_channel.mensagens_cody)
-      }
+      // } else {
+      //   const Action = require('./sendMessage/forward')
+      //   Action(client, activeServer, msg, activeServer.text_channel.mensagens_cody)
+      // }
 
     } else if (msg.channel.id === activeServer.text_channel.avisos || msg.channel.id === activeServer.text_channel.memes) {
 
