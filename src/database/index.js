@@ -66,8 +66,6 @@ const updateDocument = (data) => {
 };
 
 const deleteDocument = data => {
-  console.log(data);
-  console.log("Deleting document 'mydoc'");
   return new Promise((resolve, reject) => {
     db.destroy(data._id, data._rev, function (err, data) {
       console.log("Error:", err);

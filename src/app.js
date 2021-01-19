@@ -11,7 +11,7 @@ const Ready = require('./events/ready')
 
 const client = new Discord.Client();
 const config = require('./config.json');
-const activeServer = config.prod;
+const activeServer = config.dev;
 client.login(process.env.DS_TOKEN);
 
 Ready(client, activeServer, config)
