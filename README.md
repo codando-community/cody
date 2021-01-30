@@ -1,26 +1,30 @@
-# Cody
+<h1 align="center">🤖 Cody</h1>
 
-<h1>Sumário</h1>
+## Sumário
 
-<ol>
-  <li><a href='#requirements'>Requisitos</a></li>
-  <li><a href='#installation'>Instalação</a></li>
-  <li><a href='#run'>Execução</a></li>
-  <li>
-    <a href='#commands'>Comandos</a>
-    <ol>
-      <li><a href='#server-log'>server status</a></li>
-    </ol>
-  </li>
-</ol>
+<p align="center">
+  <a href="#newspaper-sobre">:newspaper: Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#heavy_check_mark-requesitos">:heavy_check_mark: Requesitos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#arrow_down-instalação">:arrow_down: Instalação</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#arrow_forward-executando">:arrow_forward: Executando</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#gear-comandos">:gear: Comandos</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+</p>
 
-<h1 id='requirements'>Requisitos</h1>
-<ol>
+## :newspaper: Sobre
+
+O Cody é um bot assistente em nosso servidor do discord.</br>
+Ele surgiu com o intuito de facilitar os processos realizados pelos diretores do Codando dentro do servidor.
+
+## :heavy_check_mark: Requesitos
+
+<ul>
+  <li><a href="https://git-scm.com/downloads">Git</a></li>
   <li><a href='https://nodejs.org/en/'>Node (LTS)</a></li>
   <li><a href='https://www.npmjs.com'>NPM</a></li>
-</ol>
+  <li><a href="https://expressjs.com/pt-br/starter/installing.html" target="_blank">Express</a></li>
+</ul>
 
-<h1 id='installation'>Instalação</h1>
+## :arrow_down: Instalação
 <ol>
   <li>Clone</li>
   <code>$ git clone https://github.com/maiconspa/cody</code>
@@ -29,7 +33,7 @@
   <code>$ cd cody; npm install</code>
 </ol>
 
-<h1 id='run'>Execução</h1>
+## :arrow_forward: Executando
 <ol>
     <li>Prod mode</li>
     <code>$ npm start</code>
@@ -37,7 +41,7 @@
     <code>$ npx nodemon app.js</code>
 </ol>
 
-<h1 id='commands'>Comandos</h1>
+## :gear: Comandos
 
 <h3 id='server-log'>server status</h3>
 Exibe quantidade de usuários atuais do servidor agrupados por cargos
