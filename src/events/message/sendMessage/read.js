@@ -1,51 +1,70 @@
 const instance = require('../../../database');
+const informationErrorMessage = (
+  '\nerro: você esqueceu da **informação**, tente:' +
+  '\nread [--discord, --email, --ra, --id] "**informação**"' +
+  '\nread --ra "12345678"'
+)
+
+const ParameterErrorMessage = (
+  '\nerro: parâmetro não encontrado, tente:' +
+  '\nread [--discord, --email, --ra, --id] "informação"' +
+  '\nread --ra "12345678"'
+)
 
 module.exports = (msg) => {
   const parameter = msg.content.toLowerCase().split(' ')[1]
-  const value = msg.content.split('"')[1].trim()
+  const value = msg.content.split('"')[1]
 
-  const Select = selectObject => {
-    instance
-      .select(selectObject)
-      .then(result => {
-        const { name, university, campus, registration, date_of_birth, contact, type } = result[0]
+  if (!value && parameter && parameter !== '--' && parameter.indexOf('--') !== -1) {
+    msg.reply(informationErrorMessage)
 
-        msg.reply(
-          `Nome: ${name}`+
-          `\nUniversidade: ${university}`+
-          `\nCampus: ${campus}`+
-          `\nEmail: ${contact.email}`+
-          `\nR.A: ${registration}`+
-          `\nCargo: ${type}`+
-          `\nTelefone: ${contact.cell_phone}`+
-          `\nDiscord: ${contact.discord}`+
-          `\nData de nascimento: ${date_of_birth}`
-        )
-      })
-      .catch((err) => {
-        msg.reply("Aluno não encontrado.");
-      });
-  };
+  } else if (parameter === '--') {
+    msg.reply(ParameterErrorMessage)
 
-  switch (parameter) {
-    case '--email':
-      Select({contact: {email: value}})
-      break;
+  } else if (value && parameter && parameter.indexOf('--') !== -1) {
+    const Select = selectObject => {
+      instance
+        .select(selectObject)
+        .then(result => {
+          const { name, university, campus, course, registration, date_of_birth, contact, type } = result[0]
 
-    case '--ra':
-      Select({registration: Number(value)})
-      break;
+          msg.reply(
+            `\nNome: ${name}` +
+            `\nEmail: ${contact.email}` +
+            `\nTelefone: ${contact.cell_phone}` +
+            `\n\nUniversidade: ${university}` +
+            `\nCampus: ${campus}` +
+            `\nCurso: ${course}` +
+            `\nR.A: ${registration}` +
+            `\nCargo: ${type}` +
+            `\n\nDiscord: ${contact.discord}` +
+            `\nDiscord ID: ${contact.id_discord}` +
+            `\nData de nascimento: ${date_of_birth}`
+          )
+        })
+        .catch(() => msg.reply('Aluno não encontrado.'));
+    };
 
-    case '--discord':
-      Select({contact: {discord: value}})
-      break;
+    switch (parameter) {
+      case '--email':
+        Select({ contact: { email: value.trim() } })
+        break;
 
-    default:
-      msg.reply(
-        'erro: parâmetro não encontrado, tente:' +
-        '\nread [--discord, --email, --ra] "informação"' +
-        '\nread --ra "12345678"'
-      );
-      break;
+      case '--ra':
+        Select({ registration: Number(value.trim()) })
+        break;
+
+      case '--discord':
+        Select({ contact: { discord: value.trim() } })
+        break;
+
+      case '--id':
+        Select({ contact: { id_discord: value.trim() } })
+        break;
+
+      default:
+        msg.reply(ParameterErrorMessage);
+        break;
+    }
   }
 }
