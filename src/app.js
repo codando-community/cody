@@ -1,3 +1,6 @@
+const ENV_MODE = 'dev'
+module.exports = ENV_MODE
+
 require('dotenv').config();
 
 const Discord = require('discord.js');
@@ -11,7 +14,7 @@ const Ready = require('./events/ready')
 
 const client = new Discord.Client();
 const config = require('./config.json');
-const activeServer = config.dev;
+const activeServer = config[ENV_MODE === 'dev' ? 'dev' : 'prod'];
 client.login(process.env.DS_TOKEN);
 
 Ready(client, activeServer, config)
