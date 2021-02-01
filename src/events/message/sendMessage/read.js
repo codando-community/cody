@@ -32,14 +32,14 @@ module.exports = (msg) => {
             `\nNome: ${name}` +
             `\nEmail: ${contact.email}` +
             `\nTelefone: ${contact.cell_phone}` +
+            `\nData de nascimento: ${date_of_birth}` +
             `\n\nUniversidade: ${university}` +
             `\nCampus: ${campus}` +
             `\nCurso: ${course}` +
             `\nR.A: ${registration}` +
             `\nCargo: ${type}` +
             `\n\nDiscord: ${contact.discord}` +
-            `\nDiscord ID: ${contact.id_discord}` +
-            `\nData de nascimento: ${date_of_birth}`
+            `\nDiscord ID: ${contact.id_discord}`
           )
         })
         .catch(() => msg.reply('Aluno não encontrado.'));
