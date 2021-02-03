@@ -26,19 +26,24 @@ Ele surgiu com o intuito de facilitar os processos realizados pelos diretores do
 
 ## :arrow_down: Instalação
 <ol>
-  <li>Clone</li>
-  <code>$ git clone https://github.com/maiconspa/cody</code>
+  <li>
+    Faça o clone do repositório digitando o seguinte comando no terminal</br>
+    <code>$ git clone https://github.com/maiconspa/cody</code>
+  </li>
   
-  <li>Instale as dependências</li>
-  <code>$ cd cody; npm install</code>
+  <li>
+    Para instalação das dependências abra um terminal na pasta do código e insira o camando:</br>
+    <code>$ npm install</code>
+  </li>
 </ol>
 
 ## :arrow_forward: Executando
 <ol>
-    <li>Prod mode</li>
-    <code>$ npm start</code>
-    <li>Dev mode (com hot reload)</li>
-    <code>$ npx nodemon app.js</code>
+    <li>Primeiro prepare o documento .env seguindo o arquivo .env-exemple</li>
+    <li>
+      Dev mode (com live reload)</br>
+      <code>$ npm test</code>
+    </li>
 </ol>
 
 ## :gear: Comandos
