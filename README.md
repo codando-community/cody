@@ -28,7 +28,7 @@ Ele surgiu com o intuito de facilitar e automatizar os processos realizados pelo
 <ol>
   <li>
     Faça o clone do repositório digitando o seguinte comando no terminal</br>
-    <code>$ git clone https://github.com/maiconspa/cody</code>
+    <code>$ git clone https://github.com/codando-community/cody.git</code>
   </li>
   
   <li>
