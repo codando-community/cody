@@ -13,7 +13,7 @@
 ## :newspaper: Sobre
 
 O Cody é um bot assistente em nosso servidor do discord.</br>
-Ele surgiu com o intuito de facilitar os processos realizados pelos diretores do Codando dentro do servidor.
+Ele surgiu com o intuito de facilitar e automatizar os processos realizados pelos diretores do Codando dentro do servidor.
 
 ## :heavy_check_mark: Requesitos
 
