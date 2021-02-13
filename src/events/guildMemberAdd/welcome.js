@@ -2,8 +2,8 @@ module.exports = (client, activeServer, member) => {
   const serverMessage = `Bem vindx ao servidor ${member}, aqui é o Cody,`
     + ' sou um dos integrantes do Codando (mas eles insistem em dizer que eu sou só um bot... :unamused:)'
     + '\nFico muito feliz que você tenha aceitado fazer parte da nossa comunidade!'
-    + '\nPra eu liberar seu acesso completo aqui no server, eu vou te chamar no privado para a gente fazer sua autenticação.'
-    + 'Assim vou ter certeza que você é um aluno e vou deixar você ter acesso aos outros canais do servidor. Te vejo no pv :smile:'
+    + '\nPra eu liberar seu acesso completo aqui no server, **preciso que você chame alguém da diretoria ou organizador para fazer a sua autenticação.** '
+    + 'Assim vou ter certeza que você é um aluno e vou deixar você ter acesso aos outros canais do servidor :smile:'
     + '\n\n**Que a força da comunidade esteja com você!**'
 
   const dmMessage = 'Oi, sou o Cody, acabei de falar com você no canal bem-vindo.'
@@ -24,6 +24,5 @@ module.exports = (client, activeServer, member) => {
 
     welcomeChannel
       && welcomeChannel.send(serverMessage)
-      && member.send(dmMessage)
   }
 }
