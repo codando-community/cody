@@ -1,10 +1,4 @@
-/**
- * Bancos:
- * codando
- * codando_test
- * codando_backup
- */
-
+const ENV_MODE = require('../app')
 const Cloudant = require("@cloudant/cloudant");
 
 const cloudant = Cloudant({
@@ -12,7 +6,7 @@ const cloudant = Cloudant({
   password: process.env.CLOUDANT_PASSWORD,
 });
 
-const db = cloudant.db.use("codando");
+const db = cloudant.db.use(ENV_MODE === 'dev' ? 'codando_test' : 'codando');
 
 const select = (selector = { _id: { $gt: 0 } }, fields = [], sort = []) => {
   return new Promise((resolve, reject) => {
