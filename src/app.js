@@ -1,4 +1,4 @@
-const ENV_MODE = 'prod'
+const ENV_MODE = 'dev'
 module.exports = ENV_MODE
 
 require('dotenv').config();

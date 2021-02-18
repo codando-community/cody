@@ -1,43 +1,26 @@
+const axios = require("axios")
+const AssistantV1 = require('ibm-watson/assistant/v1');
+const { IamAuthenticator } = require('ibm-watson/auth');
+
+const assistant = new AssistantV1({
+  version: '2020-04-01',
+  authenticator: new IamAuthenticator({
+    apikey: 'VYVVtGoRGynFLa-L0qicba9fKoDSOEKJrz6ms_dhmjRu',
+  }),
+  disableSslVerification: true,
+  serviceUrl: 'https://api.us-south.assistant.watson.cloud.ibm.com/instances/1bfbda5a-a70b-4361-be08-5587bd6dc71c/v2/assistants/d0f3d408-0f3c-4621-9f7f-b4f536096326/sessions',
+});
+
+
 module.exports = (client, activeServer, msg, channelID) => {
-  const channel = client.guilds.cache
-    .find(g => g.id === activeServer.server_id).channels.cache
-    .find(ch => ch.id == channelID)
-
-  if (channelID === activeServer.text_channel.auth) {
-    if (msg.content.toLowerCase().indexOf('não, há divergências') !== -1) {
-      msg.reply(
-        'Ops, desculpe o inconveniente.' +
-        '\nNossa equipe entrará em contato afim de esclarecer o ocorrido.'
-      );
-
-      channel.send(
-        msg.channel.recipient.username + '#'
-        + msg.channel.recipient.discriminator
-        + ' teve problemas na autenticação, favor verificar')
-
-    } else if (msg.content.toLowerCase().indexOf('conversar com um organizador') !== -1) {
-      msg.reply('Nossa equipe entrará em contato.');
-
-      channel.send(
-        msg.channel.recipient.username + "#"
-        + msg.channel.recipient.discriminator
-        + " gostaria de esclarecer algumas duvidas antes de ser autenticado")
-    }
-  } else {
-    if (msg.content.toLowerCase().indexOf('sim, está correto ') !== -1) {
-      channel.send(
-        "Aluno "
-        + msg.channel.recipient.username + "#"
-        + msg.channel.recipient.discriminator
-        + " autenticado com sucesso!")
-
-    } else {
-      channel.send(
-        "** Mensagem enviada por **: "
-        + msg.channel.recipient.username + "#"
-        + msg.channel.recipient.discriminator
-        + "\n ** Conteúdo: **"
-        + msg.content)
-    }
-  }
+  assistant.message({
+    workspaceId: '10001',
+    input: {'text': 'Autenticar'}
+  })
+  .then(res => {
+    console.log(JSON.stringify(res.result, null, 2));
+  })
+  .catch(err => {
+    console.log(err)
+  });
 }
