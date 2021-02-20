@@ -1,7 +1,9 @@
 module.exports = (client, activeServer) => client.on('message', msg => {
+
+
   if (msg.author !== client.user) {
     if (msg.channel.type === 'dm') {
-
+        // console.log('msg: ', msg)
         const Action = require('./sendMessage/forward')
         Action(client, activeServer, msg, activeServer.text_channel.mensagens_cody)
 
