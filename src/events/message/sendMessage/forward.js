@@ -2,52 +2,62 @@ const store = require('store')
 const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
-const apiKey = 'VYVVtGoRGynFLa-L0qicba9fKoDSOEKJrz6ms_dhmjRu'
-const url = 'https://gateway.watsonplatform.net/assistant/api'
-const assistantID = 'd0f3d408-0f3c-4621-9f7f-b4f536096326'
-
 const assistant = new AssistantV2({
   version: '2020-04-01',
   authenticator: new IamAuthenticator({
-    apikey: apiKey,
+    apikey: process.env.ASSISTANT_APIKEY_AUTENTICACAO,
   }),
   disableSslVerification: true,
-  url: url,
+  url: process.env.ASSISTANT_URL_AUTENTICACAO,
 });
 
-const messageFlow = (msg) => {
+function messageFlow(msg) {
   assistant.message({
-    assistantId: assistantID,
-    sessionId: store.get('local_session').session_id,
+    assistantId: process.env.ASSISTANT_ID_AUTENTICACAO,
+    sessionId: store.get(msg.author.id).session_id,
     input: {
       message_type: 'text',
       text: msg.content
     }
   })
-  .then(res => {
-    msg.reply(res.result.output.generic[0].text)
-  })
-  .catch(err => {
-    console.log(err);
-  });
+    .then(res => {
+      res.result
+      msg.reply(res.result.output.generic[0].text)
+    })
+    .catch(err => {
+      console.log('messageFlow error: ', err.body);
+
+      if (err.body.toLowerCase().indexOf('ínvalid session') !== -1) {
+        msg.reply('sessao invalida')
+        createSession(msg)
+      }
+    });
 }
 
-module.exports = (client, activeServer, msg, channelID) => {
-  if (store.get('local_session') && msg.author.id === store.get('local_session').discord_id) {
-    messageFlow(msg)
-  } else {
-    assistant.createSession({
-      assistantId: assistantID
-    })
+function createSession(msg) {
+  assistant.createSession({
+    assistantId: process.env.ASSISTANT_ID_AUTENTICACAO,
+  })
     .then(res => {
-      store.set('local_session', {
+      store.set(msg.author.id, {
         discord_id: msg.author.id,
-        session_id:res.result.session_id
+        session_id: res.result.session_id
       })
       messageFlow(msg)
     })
     .catch(err => {
       console.error('error: ', err);
     });
+}
+
+module.exports = (client, activeServer, msg, channelID) => {
+  const local_session = store.get(msg.author.id)
+
+  if (local_session) {
+    messageFlow(msg)
+
+  } else {
+    createSession(msg)
+
   }
 }

@@ -3,6 +3,7 @@ module.exports = ENV_MODE
 
 require('dotenv').config();
 
+const fs = require('fs')
 const Discord = require('discord.js');
 const express = require('express');
 const Express = express();
