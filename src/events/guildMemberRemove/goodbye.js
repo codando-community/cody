@@ -1,8 +1,8 @@
 const instance = require("../../database")
 
 module.exports = (client, activeServer, member) => {
-  const message = `O aluno *${member.user.username}#${member.user.discriminator}* saiu do server!`
-  const errorMessage = `erro ao atualizar o banco de dados, discord_user: *${member.user.username}#${member.user.discriminator}*`
+  const message = `*${member.user.username}#${member.user.discriminator}* saiu do server!`
+  const errorMessage = `erro ao atualizar o banco de dados: *${member.user.username}#${member.user.discriminator}*`
 
   const currentServer = client.guilds.cache
     .find(server => server.id === member.guild.id)
