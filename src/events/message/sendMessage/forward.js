@@ -10,14 +10,14 @@ const addRole = (client, msg, idMember, roleName, activeServer) => {
   cargoMembro &&
     member.roles.add(cargoMembro)
     .then(
-      msg.reply(':blush: Acabei de liberar o seu acesso!! 1')
+      msg.reply(':blush: Acabei de liberar o seu acesso!! \nQue a força da comunidade esteja com você!')
     )
     .catch(console.error)
 
   cargoInstituicao &&
     member.roles.add(cargoInstituicao)
     .then(
-      msg.reply('Bem vindx ao Codando!')
+      console.log('ok')
     )
     .catch(console.error)
 }
