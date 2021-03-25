@@ -3,23 +3,21 @@ const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 const addRole = (client, msg, idMember, roleName, activeServer) => {
-  let cargoInstituicao = client.guilds.cache.find(g => g.id === activeServer.server_id).roles.cache.find(role => role.name.indexOf(roleName) !== -1)
-  let cargoMembro = client.guilds.cache.find(g => g.id === activeServer.server_id).roles.cache.find(role => role.name.indexOf('membro') !== -1)
-  let member = client.guilds.cache.find(g => g.id === activeServer.server_id).members.cache.find(m => m.id === idMember)
+  const GUILD = client.guilds.cache.find(g => g.id === activeServer.server_id)
+
+  let cargoRecebido = GUILD.roles.cache.find(role => role.name.indexOf(roleName) !== -1)
+  let cargoMembro = GUILD.roles.cache.find(role => role.name.indexOf('membro') !== -1)
+  let member = GUILD.members.cache.find(m => m.id === idMember)
 
   cargoMembro &&
     member.roles.add(cargoMembro)
-    .then(
-      msg.reply(':blush: Acabei de liberar o seu acesso!! \nQue a força da comunidade esteja com você!')
-    )
-    .catch(console.error)
+      .then(msg.reply(':blush: Acabei de liberar o seu acesso!! '))
+      .catch(console.error)
 
-  cargoInstituicao &&
-    member.roles.add(cargoInstituicao)
-    .then(
-      console.log('ok')
-    )
-    .catch(console.error)
+  cargoRecebido &&
+    member.roles.add(cargoRecebido)
+      .then(msg.reply('Que a força da comunidade esteja com você!'))
+      .catch(console.error)
 }
 
 const assistant = new AssistantV2({
@@ -50,12 +48,12 @@ function messageFlow(msg, client, activeServer) {
             text: msg.author.id
           }
         })
-        .then(res => {
-          if (res.result.output.generic[0] && res.result.output.generic[0].text.indexOf('aplicar cargo:') !== -1) {
-            addRole(client, msg, msg.author.id, res.result.output.generic[0].text.split('aplicar cargo: ')[1], activeServer)
-          }
-        })
-        .catch(err => console.error(err))
+          .then(res => {
+            if (res.result.output.generic[0] && res.result.output.generic[0].text.indexOf('aplicar cargo:') !== -1) {
+              addRole(client, msg, msg.author.id, res.result.output.generic[0].text.split('aplicar cargo: ')[1], activeServer)
+            }
+          })
+          .catch(err => console.error(err))
 
       } else if (res.result.output.generic[0] && res.result.output.generic[0].text.indexOf('aplicar cargo:') !== -1) {
         addRole(client, msg, msg.author.id, res.result.output.generic[0].text.split('aplicar cargo: ')[1], activeServer)
@@ -64,17 +62,10 @@ function messageFlow(msg, client, activeServer) {
         msg.reply(res.result.output.generic[0].text)
       }
     })
-    .catch(err => {
-      console.error('messageFlow error: ', err);
-
-      if (err.body && err.body.toLowerCase().indexOf('invalid session') !== -1) {
-        msg.reply('sessao invalida')
-        createSession(msg)
-      }
-    });
+    .catch(err => console.error('messageFlow error: ', err));
 }
 
-function createSession(msg) {
+function createSession(msg, client, activeServer) {
   assistant.createSession({
     assistantId: 'd0f3d408-0f3c-4621-9f7f-b4f536096326',
   })
@@ -83,21 +74,15 @@ function createSession(msg) {
         discord_id: msg.author.id,
         session_id: res.result.session_id
       })
-      messageFlow(msg)
+      messageFlow(msg, client, activeServer)
     })
     .catch(err => {
       console.error('error: ', err);
     });
 }
 
-module.exports = (client, activeServer, msg, channelID) => {
-  const local_session = store.get(msg.author.id)
-
-  if (local_session) {
-    messageFlow(msg, client, activeServer)
-
-  } else {
-    createSession(msg)
-
-  }
+module.exports = (client, activeServer, msg) => {
+  store.get(msg.author.id)
+    ? messageFlow(msg, client, activeServer)
+    : createSession(msg, client, activeServer)
 }
