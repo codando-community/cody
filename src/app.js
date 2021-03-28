@@ -22,4 +22,4 @@ Message(client, activeServer)
 GuildMemberAdd(client, activeServer)
 GuildMemberRemove(client, activeServer)
 
-Express.listen(8080, () => {});
+Express.listen(3000, () => {});

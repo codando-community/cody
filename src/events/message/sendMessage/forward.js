@@ -16,8 +16,10 @@ const addRole = (client, msg, idMember, roleName, activeServer) => {
 
   cargoRecebido &&
     member.roles.add(cargoRecebido)
-      .then(msg.reply('Que a força da comunidade esteja com você!'))
+      .then(msg.reply(`Acesso concedido: ${roleName}`))
       .catch(console.error)
+
+  msg.reply('may the Community be with you! :vulcan:')
 }
 
 const assistant = new AssistantV2({
@@ -62,7 +64,14 @@ function messageFlow(msg, client, activeServer) {
         msg.reply(res.result.output.generic[0].text)
       }
     })
-    .catch(err => console.error('messageFlow error: ', err));
+    .catch(err => {
+      console.error('messageFlow error: ', err);
+
+      if (err.body && err.body.toLowerCase().indexOf('invalid session') !== -1) {
+        console.log(err.body.toLowerCase())
+        createSession(msg)
+      }
+    });
 }
 
 function createSession(msg, client, activeServer) {
