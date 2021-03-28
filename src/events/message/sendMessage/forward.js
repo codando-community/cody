@@ -68,8 +68,7 @@ function messageFlow(msg, client, activeServer) {
       console.error('messageFlow error: ', err);
 
       if (err.body && err.body.toLowerCase().indexOf('invalid session') !== -1) {
-        console.log(err.body.toLowerCase())
-        createSession(msg)
+        createSession(msg, client, activeServer)
       }
     });
 }
