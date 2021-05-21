@@ -25,15 +25,15 @@ const addRole = (client, msg, idMember, roleName, activeServer) => {
 const assistant = new AssistantV2({
   version: '2020-04-01',
   authenticator: new IamAuthenticator({
-    apikey: 'VYVVtGoRGynFLa-L0qicba9fKoDSOEKJrz6ms_dhmjRu',
+    apikey: process.env.ASSISTANT_APIKEY,
   }),
   disableSslVerification: true,
-  url: 'https://gateway.watsonplatform.net/assistant/api',
+  url: process.env.ASSISTANT_URL,
 });
 
 function messageFlow(msg, client, activeServer) {
   assistant.message({
-    assistantId: 'd0f3d408-0f3c-4621-9f7f-b4f536096326',
+    assistantId: process.env.ASSISTANT_ID_DM,
     sessionId: store.get(msg.author.id).session_id,
     input: {
       message_type: 'text',
@@ -43,7 +43,7 @@ function messageFlow(msg, client, activeServer) {
     .then(res => {
       if (res.result.output.generic[0] && res.result.output.generic[0].text.indexOf('discord_id') !== -1) {
         assistant.message({
-          assistantId: 'd0f3d408-0f3c-4621-9f7f-b4f536096326',
+          assistantId: process.env.ASSISTANT_ID_DM,
           sessionId: store.get(msg.author.id).session_id,
           input: {
             message_type: 'text',
@@ -75,7 +75,7 @@ function messageFlow(msg, client, activeServer) {
 
 function createSession(msg, client, activeServer) {
   assistant.createSession({
-    assistantId: 'd0f3d408-0f3c-4621-9f7f-b4f536096326',
+    assistantId: process.env.ASSISTANT_ID_DM,
   })
     .then(res => {
       store.set(msg.author.id, {

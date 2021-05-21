@@ -1,0 +1,26 @@
+{
+  "name": "ranking",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "deploy": "ibmcloud fn action update my-action dist/bundle.js --kind nodejs:10",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.33.2",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "eris": "^0.15.0",
+    "path-browserify": "^1.0.1",
+    "stream-browserify": "^3.0.0"
+  },
+  "resolve": {
+    "fallback": {
+      "path": false
+    }
+  }
+}
