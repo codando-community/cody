@@ -1,8 +1,5 @@
-const instance = require("../../database")
-
 module.exports = (client, activeServer, member) => {
-  const message = `*${member.user.username}#${member.user.discriminator}* saiu do server!`
-  const errorMessage = `erro ao atualizar o banco de dados: *${member.user.username}#${member.user.discriminator}*`
+  const message = `:face_with_symbols_over_mouth: *${member.user.username}#${member.user.discriminator}* saiu do server!`
 
   const currentServer = client.guilds.cache
     .find(server => server.id === member.guild.id)
@@ -14,15 +11,5 @@ module.exports = (client, activeServer, member) => {
 
     codyInboxChannel
       && codyInboxChannel.send(message)
-
-    instance.select({ contact: { discord: `${member.user.username}#${member.user.discriminator}`}})
-      .then(result => {
-        data = result[0]
-        data.active = false
-        data.join_auth = false
-
-        instance.updateDocument(data)
-      })
-      .catch(() => codyInboxChannel.send(errorMessage))
   }
 }
