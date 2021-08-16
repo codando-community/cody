@@ -1,19 +1,24 @@
-module.exports = (client, activeServer) => client.on('message', msg => {
-  if (msg.author !== client.user) {
+const { getActiveServerByEnvMode } = require('../../utils/getActiveServer');
 
+const activeServer = getActiveServerByEnvMode();
+
+module.exports = (client) => client.on('message', msg => {
+  if (msg.author !== client.user) {
+    console.log(activeServer.channels.avisos, msg.channel.id, msg.channel.name)
     if (msg.channel.type === 'dm') {
       const DM = require('./sendMessage/dm')
-      DM(client, activeServer, msg)
+      // DM(client, msg)
 
-    } else if (msg.channel.id === activeServer.text_channel.avisos) {
+    } else if (msg.channel.id === activeServer.channels.avisos) {
+      console.log("avisos")
       const Avisos = require('./reactions/avisos')
-      Avisos(client, activeServer, msg)
+      Avisos(client, msg)
 
-    } else if (msg.channel.id === activeServer.text_channel.memes) {
+    } else if (msg.channel.id === activeServer) {
       const Memes = require('./reactions/meme')
       Memes(client, activeServer, msg)
 
-    } else if (msg.channel.id === activeServer.text_channel.cody_bash &&
+    } else if (msg.channel.id === activeServer.channels['cody-bash'] &&
                       msg.content.includes('--')) {
 
       switch (msg.content.toLowerCase().split(' ')[0]) {
@@ -41,12 +46,6 @@ module.exports = (client, activeServer) => client.on('message', msg => {
           let Server = require('./serverStatus/roleStatus')
           Server(client, activeServer, msg)
           break;
-
-        // desabilitado devido a não ter necessidade de autenticar manualmente e se for o caso, ter que refatorar o código devido a alterações de BD
-        // case 'auth':
-        //   ManualAuth = require('./manualAuth')
-        //   ManualAuth(client, activeServer, msg)
-        //   break;
 
         default:
           msg.reply("opção inválida")

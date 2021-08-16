@@ -1,7 +1,7 @@
 const Goodbye = require('./goodbye');
 
-module.exports = (client, activeServer) => {
+module.exports = (client) => {
   client.on('guildMemberRemove', member => {
-    Goodbye(client, activeServer, member);
+    Goodbye(client, member);
   })
 }

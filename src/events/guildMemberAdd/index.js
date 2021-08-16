@@ -1,7 +1,7 @@
 const Welcome = require("./welcome");
 
-module.exports = (client, activeServer) => {
+module.exports = (client) => {
   client.on('guildMemberAdd', member => {
-    Welcome(client, activeServer, member)
+    Welcome(client, member)
   })
 }

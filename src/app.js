@@ -1,9 +1,3 @@
-/**
- * Environment mode
- */
-const ENV_MODE = 'dev'
-module.exports = ENV_MODE
-
 require('dotenv').config();
 const Discord = require('discord.js');
 const express = require('express');
@@ -13,18 +7,17 @@ const Express = express();
 const GuildMemberAdd = require('./events/guildMemberAdd')
 const GuildMemberRemove = require('./events/guildMemberRemove')
 const Message = require('./events/message')
-const Ready = require('./events/ready')
+const Ready = require('./events/ready');
 
 // Client config
 const client = new Discord.Client();
-const config = require('./config.json');
-const activeServer = config[ENV_MODE];
+
 client.login(process.env.DS_TOKEN);
 
 // Event call
-Ready(client, activeServer, config)
-Message(client, activeServer)
-GuildMemberAdd(client, activeServer)
-GuildMemberRemove(client, activeServer)
+Ready(client)
+Message(client)
+GuildMemberAdd(client)
+GuildMemberRemove(client)
 
-Express.listen(8080, () => {});
+Express.listen(8080);

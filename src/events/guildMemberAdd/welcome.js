@@ -1,4 +1,6 @@
-module.exports = (client, activeServer, member) => {
+const { getActiveServerByEnvMode } = require("../../utils/getActiveServer")
+
+module.exports = (client, member) => {
   const serverMessage = `Bem vindx ao Codando, ${member}! \nMe manda um "autenticar" no pv pra liberar o seu acesso ;)`
 
   const dmMessage = 'Oi, sou o Cody, um dos integrantes do Codando'
@@ -13,7 +15,7 @@ module.exports = (client, activeServer, member) => {
   if (currentServer) {
     const welcomeChannel = currentServer
       .channels.cache
-      .find(channel => channel.id === activeServer.text_channel.bem_vindo)
+      .find(channel => channel.id === getActiveServerByEnvMode().channels["bem-vindo"])
 
     welcomeChannel
       && welcomeChannel.send(serverMessage)
