@@ -1,13 +1,18 @@
 module.exports = (client, activeServer, msg) => {
-  if (msg.content.toLowerCase().indexOf("--role") != -1) {
+
+  if (msg.content.toLowerCase().includes("--role")) {
     client.guilds.cache
-      .filter((server) => server.id === activeServer.server_id)
-      .map((c) => {
-        let temp = `exibindo informações sobre o servidor **${c.name}**\n`;
-        c.roles.cache.map((role) => {
-          temp += `cargo: ${role.name}, members: ${role.members.size}\n`;
+      .filter(server => server.id === activeServer.server_id)
+      .map(
+        (guild) => {
+          let temp = `exibindo informações sobre o servidor **${guild.name}**\n`;
+
+          guild.roles.cache.map(
+            (role) => {
+              temp += `cargo: ${role.name}, members: ${role.members.size}\n`;
+            });
+
+          msg.reply(temp);
         });
-        msg.reply(temp);
-      });
   }
 };
