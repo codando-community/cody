@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const store = require('store')
 const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
@@ -33,25 +35,34 @@ function forward(client, activeServer, msg) {
  * @param {string} roleName
  * @param {object} activeServer
  */
-const addRole = (client, msg, outputText, activeServer) => {
+const handleRole = (client, msg, outputText, activeServer, isAddRole) => {
   const GUILD = client.guilds.cache.find(g => g.id === activeServer.server_id)
-  const roleName = outputText.split('aplicar cargo: ')[1]
+  const ROLENAME = isAddRole
+                    ? outputText.split('aplicar cargo: ')[1]
+                    : outputText.split('remover cargo: ')[1]
 
-  let cargoRecebido = GUILD.roles.cache.find(role => role.name.includes(roleName))
+  let cargoRecebidoWatson = GUILD.roles.cache.find(role => role.name.includes(ROLENAME))
   let cargoMembro = GUILD.roles.cache.find(role => role.name.includes('membro'))
   let member = GUILD.members.cache.find(m => m.id === msg.author.id)
+  let guildMemberRoleManager = new Discord.GuildMemberRoleManager(member)
 
-  cargoMembro &&
-    member.roles.add(cargoMembro)
-      .then(msg.reply(':blush: Acabei de liberar o seu acesso!! '))
-      .catch(err => console.error(err)) // TODO redirect de erros pra uma function que envia no Discord em Cody/erros
+  if (isAddRole) {
+    cargoMembro && guildMemberRoleManager.add(cargoMembro)
+    .then(guildMember => guildMember.send(':blush: Acabei de liberar o seu acesso!!'))
+    .catch(error => console.error(error))
 
-  cargoRecebido &&
-    member.roles.add(cargoRecebido)
-      .then(msg.reply(`Acesso concedido: ${roleName}`))
-      .catch(err => console.error(err))  // TODO redirect de erros pra uma function que envia no Discord em Cody/erros
+    cargoRecebidoWatson && guildMemberRoleManager.add(cargoRecebidoWatson)
+    .then(guildMember => guildMember.send(':partying_face: Acesso concedido!!'))
+    .catch(error => console.error(error))
 
-  msg.reply('may the Community be with you! :vulcan:')
+  } else {
+    cargoRecebidoWatson &&
+      new Discord.GuildMemberRoleManager(member).remove(cargoRecebidoWatson)
+      .then(guildMember => guildMember.send(`:wink: Prontinho, removi ${ROLENAME} pra vc!`))
+      .catch(error => console.error(error))
+  }
+
+  member.send('may the Community be with you! :vulcan:')
 }
 
 /**
@@ -73,7 +84,7 @@ function discordID(client, msg, activeServer) {
       let output = response.result.output.generic[0]
 
       if (output && output.text.includes('aplicar cargo:')) {
-        addRole(client, msg, output.text, activeServer)
+        handleRole(client, msg, output.text, activeServer, true)
       }
     })
     .catch(err => console.error(err))
@@ -98,13 +109,15 @@ function messageFlow(msg, client, activeServer) {
     .then(response => {
       let output = response.result.output.generic[0]
 
-      if (output) {
+      if (output && output.text) {
         if (output.text.includes('discord_id')) {
           discordID(client, msg, activeServer)
 
         } else if (output.text.includes('aplicar cargo:')) {
-          addRole(client, msg, output.text, activeServer)
+          handleRole(client, msg, output.text, activeServer, true)
 
+        } else if (output.text.includes('remover cargo:')) {
+          handleRole(client, msg, output.text, activeServer, false)
         } else {
           msg.reply(output.text)
         }
