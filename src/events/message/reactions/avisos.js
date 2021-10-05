@@ -1,5 +1,10 @@
-const { getActiveServerByEnvMode } = require("../../../utils/getActiveServer")
+const Discord = require("discord.js");
+const configFile = require("../../../config.json");
 
+/**
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
+ */
 module.exports = (client, msg) => {
   let emojiIDs = [
     '768621842688638986', //MayTheCommunity
@@ -8,7 +13,7 @@ module.exports = (client, msg) => {
     '823719899486617680' //codando
   ]
 
-  msg.channel.id === getActiveServerByEnvMode().channels.avisos
+  msg.channel.id === configFile[process.env.ENV_MODE].channels.avisos
     && msg.author !== client.user
     && client.emojis.cache
       .filter(emoji => emojiIDs.indexOf(emoji.id) > -1)

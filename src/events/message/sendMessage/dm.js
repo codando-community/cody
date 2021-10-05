@@ -1,7 +1,8 @@
 const store = require('store')
+const Discord = require("discord.js");
 const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
-const { getActiveServerByEnvMode } = require('../../../utils/getActiveServer');
+const { getActiveServerByEnvMode } = require('../../../utils/getDiscordProperties');
 const activeServer = getActiveServerByEnvMode();
 
 /**
@@ -16,22 +17,21 @@ const assistant = new AssistantV2({
   url: process.env.ASSISTANT_URL
 });
 
+
 /**
- *
- * @param {object} client
- * @param {object} msg
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
  */
 function forward(client, msg) {
   store.get(msg.author.id)
-    ? messageFlow(msg, client)
-    : createSession(msg, client)
+    ? messageFlow(client, msg)
+    : createSession(client, msg)
 }
 
 /**
- *
- * @param {object} client
- * @param {object} msg
- * @param {string} roleName
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
+ * @param {String} outputText
  */
 const addRole = (client, msg, outputText) => {
   const GUILD = client.guilds.cache.find(g => g.id === activeServer.server_id)
@@ -54,10 +54,10 @@ const addRole = (client, msg, outputText) => {
   msg.reply('may the Community be with you! :vulcan:')
 }
 
+
 /**
- *
- * @param {object} client
- * @param {object} msg
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
  */
 function discordID(client, msg) {
   assistant.message({
@@ -78,12 +78,12 @@ function discordID(client, msg) {
     .catch(err => console.error(err))
 }
 
+
 /**
- *
- * @param {object} msg
- * @param {object} client
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
  */
-function messageFlow(msg, client) {
+function messageFlow(client, msg) {
 
   assistant.message({
     assistantId: process.env.ASSISTANT_ID_DM,
@@ -113,16 +113,16 @@ function messageFlow(msg, client) {
 
       err.body
       && err.body.toLowerCase().includes('invalid session')
-      && createSession(msg, client);
+      && createSession(client, msg);
     });
 }
 
+
 /**
- *
- * @param {object} msg
- * @param {object} client
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
  */
-function createSession(msg, client) {
+function createSession(client, msg) {
   assistant.createSession({
     assistantId: process.env.ASSISTANT_ID_DM,
   })
@@ -131,7 +131,7 @@ function createSession(msg, client) {
         discord_id: msg.author.id,
         session_id: response.result.session_id
       })
-      messageFlow(msg, client)
+      messageFlow(client, msg)
     })
     .catch(err => {
       console.error('error: ', err);

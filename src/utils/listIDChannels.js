@@ -1,8 +1,13 @@
-module.exports = (client, activeServer) =>
+const Discord = require("discord.js");
+const { getServer } = require("./getDiscordProperties");
+
+/**
+ * List emojis IDs of actual server
+ * @param {Discord.Client} client
+ */
+module.exports = (client) =>
   client.on('ready', () => {
-    client.guilds.cache
-      .find(a => a.id === activeServer.server_id)
-      .channels.cache.map(a => 
-        console.log('"%s": "%s",', a.name.toLowerCase(), a.id)
-      )
+    getServer(client).channels.cache.map(channel =>
+      console.log('"%s": "%s",', channel.name.toLowerCase(), channel.id)
+    )
   });

@@ -11,7 +11,6 @@ const Ready = require('./events/ready');
 
 // Client config
 const client = new Discord.Client();
-
 client.login(process.env.DS_TOKEN);
 
 // Event call

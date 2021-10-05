@@ -1,6 +1,11 @@
+const Discord = require("discord.js");
 const instance = require('../../database');
-const { getActiveServerByEnvMode } = require('../../utils/getActiveServer');
+const { getServer } = require('../../utils/getDiscordProperties');
 
+/**
+ * @param {Discord.Client} client
+ * @param {Discord.GuildMember} member
+ */
 module.exports = (client, member) => {
   const message = `:face_with_symbols_over_mouth: *${member.user.username}#${member.user.discriminator}* saiu do server!`
 
@@ -10,7 +15,7 @@ module.exports = (client, member) => {
   if (currentServer) {
     const codyInboxChannel = currentServer
       .channels.cache
-      .find(channel => channel.id === getActiveServerByEnvMode().channels['mensagens-cody'])
+      .find(channel => channel.id === getServer(client).channels['mensagens-cody'])
 
     codyInboxChannel
       && codyInboxChannel.send(message)

@@ -1,4 +1,4 @@
-const { getActiveServerByEnvMode } = require('../../utils/getActiveServer');
+const { getActiveServerByEnvMode } = require('../../utils/getDiscordProperties');
 
 const activeServer = getActiveServerByEnvMode();
 
@@ -16,7 +16,7 @@ module.exports = (client) => client.on('message', msg => {
 
     } else if (msg.channel.id === activeServer) {
       const Memes = require('./reactions/meme')
-      Memes(client, activeServer, msg)
+      Memes(client, msg)
 
     } else if (msg.channel.id === activeServer.channels['cody-bash'] &&
                       msg.content.includes('--')) {

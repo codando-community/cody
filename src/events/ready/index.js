@@ -1,16 +1,13 @@
-const { getActiveServerByServerName, getActiveServerByEnvMode } = require("../../utils/getActiveServer");
-const { updateConfigFile } = require("../../utils/updateConfigFile");
+const Discord = require("discord.js");
 
+/**
+ * @param {Discord.Client} client
+ */
 module.exports = (client) => client.on('ready', () => {
+  process.env.ENV_MODE === 'prod'
+    ? client.user.setActivity('flow.page/codando.community', { type: 'WATCHING' })
+    && console.log('Em ambiente de produção!')
 
-  updateConfigFile(client)
-  .then(() => {
-    getActiveServerByServerName("Codando").server_id === getActiveServerByEnvMode().server_id
-      ? client.user.setActivity('flow.page/codando.community', { type: 'WATCHING' })
-      && console.log('Em ambiente de produção!')
-
-      : client.user.setActivity('instagram/codando.community', { type: 'WATCHING' })
-      && console.log('Em ambiente de desenvolvimento.');
-  })
-  .catch(console.error)
+    : client.user.setActivity('instagram/codando.community', { type: 'WATCHING' })
+    && console.log('Em ambiente de desenvolvimento.');
 });
