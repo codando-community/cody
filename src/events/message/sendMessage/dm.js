@@ -3,6 +3,12 @@ const Discord = require('discord.js');
 const store = require('store')
 const AssistantV2 = require('ibm-watson/assistant/v2');
 const { IamAuthenticator } = require('ibm-watson/auth');
+/**
+ *
+ * @param {Discord.GuildMember} member
+ * @returns
+ */
+const MESSAGE_AUTH_SUCCESSFUL = member => `:white_check_mark: *${member.user.username}#${member.user.discriminator}* autenticado com sucesso`
 
 /**
  * Watson Assistant instance
@@ -18,7 +24,7 @@ const assistant = new AssistantV2({
 
 /**
  *
- * @param {object} client
+ * @param {Discord.Client} client
  * @param {object} activeServer
  * @param {object} msg
  */
@@ -30,14 +36,16 @@ function forward(client, activeServer, msg) {
 
 /**
  *
- * @param {object} client
- * @param {object} msg
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
  * @param {string} roleName
  * @param {object} activeServer
+ * @param {string} action
  */
-const handleRole = (client, msg, outputText, activeServer, isAddRole) => {
+const handleRole = (client, msg, outputText, activeServer, action) => {
   const GUILD = client.guilds.cache.find(g => g.id === activeServer.server_id)
-  const ROLENAME = isAddRole
+  const codyInboxChannel = GUILD.channels.cache.find(channel => channel.id === activeServer.text_channel.mensagens_cody)
+  const ROLENAME = action === 'add'
                     ? outputText.split('aplicar cargo: ')[1]
                     : outputText.split('remover cargo: ')[1]
 
@@ -46,9 +54,12 @@ const handleRole = (client, msg, outputText, activeServer, isAddRole) => {
   let member = GUILD.members.cache.find(m => m.id === msg.author.id)
   let guildMemberRoleManager = new Discord.GuildMemberRoleManager(member)
 
-  if (isAddRole) {
+  if (action === 'add') {
     cargoMembro && guildMemberRoleManager.add(cargoMembro)
-    .then(guildMember => guildMember.send(':blush: Acabei de liberar o seu acesso!!'))
+    .then(guildMember => {
+      guildMember.send(':blush: Acabei de liberar o seu acesso!!')
+      codyInboxChannel && codyInboxChannel.send(MESSAGE_AUTH_SUCCESSFUL(member))
+    })
     .catch(error => console.error(error))
 
     cargoRecebidoWatson && guildMemberRoleManager.add(cargoRecebidoWatson)
@@ -67,8 +78,8 @@ const handleRole = (client, msg, outputText, activeServer, isAddRole) => {
 
 /**
  *
- * @param {object} client
- * @param {object} msg
+ * @param {Discord.Client} client
+ * @param {Discord.Message} msg
  * @param {object} activeServer
  */
 function discordID(client, msg, activeServer) {
@@ -84,7 +95,7 @@ function discordID(client, msg, activeServer) {
       let output = response.result.output.generic[0]
 
       if (output && output.text.includes('aplicar cargo:')) {
-        handleRole(client, msg, output.text, activeServer, true)
+        handleRole(client, msg, output.text, activeServer, 'add')
       }
     })
     .catch(err => console.error(err))
@@ -92,8 +103,8 @@ function discordID(client, msg, activeServer) {
 
 /**
  *
- * @param {object} msg
- * @param {object} client
+ * @param {Discord.Message} msg
+ * @param {Discord.Client} client
  * @param {object} activeServer
  */
 function messageFlow(msg, client, activeServer) {
@@ -114,10 +125,10 @@ function messageFlow(msg, client, activeServer) {
           discordID(client, msg, activeServer)
 
         } else if (output.text.includes('aplicar cargo:')) {
-          handleRole(client, msg, output.text, activeServer, true)
+          handleRole(client, msg, output.text, activeServer, 'add')
 
         } else if (output.text.includes('remover cargo:')) {
-          handleRole(client, msg, output.text, activeServer, false)
+          handleRole(client, msg, output.text, activeServer, 'remove')
         } else {
           msg.reply(output.text)
         }
@@ -134,8 +145,8 @@ function messageFlow(msg, client, activeServer) {
 
 /**
  *
- * @param {object} msg
- * @param {object} client
+ * @param {Discord.Message} msg
+ * @param {Discord.Client} client
  * @param {object} activeServer
  */
 function createSession(msg, client, activeServer) {
