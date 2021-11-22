@@ -5,14 +5,20 @@ module.exports = (client, activeServer, msg) => {
       .filter(server => server.id === activeServer.server_id)
       .map(
         (guild) => {
-          let temp = `exibindo informações sobre o servidor **${guild.name}**\n`;
+          let title = `Exibindo quantidade de membros por cargo no servidor **${guild.name}**\n`;
+          let body = '';
+          let roleArray = [];
 
-          guild.roles.cache.map(
-            (role) => {
-              temp += `cargo: ${role.name}, members: ${role.members.size}\n`;
-            });
+          guild.roles.cache.map(role => roleArray.push({
+            roleName: role.name.replace('@', ''),
+            count: role.members.size
+          }));
 
-          msg.reply(temp);
+          roleArray.map(role => {
+            body += role.count + '  -  ' + role.roleName + '\n';
+          })
+
+          msg.reply(title + '\n' + body);
         });
   }
 };
