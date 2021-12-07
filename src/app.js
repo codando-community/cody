@@ -1,7 +1,7 @@
 /**
  * Environment mode
  */
-const ENV_MODE = 'prod'
+const ENV_MODE = 'dev'
 module.exports = ENV_MODE
 
 require('dotenv').config();
@@ -22,7 +22,7 @@ const activeServer = config[ENV_MODE];
 client.login(process.env.DS_TOKEN);
 
 // Event call
-Ready(client, activeServer, config)
+Ready(client, activeServer)
 Message(client, activeServer)
 GuildMemberAdd(client, activeServer)
 GuildMemberRemove(client, activeServer)

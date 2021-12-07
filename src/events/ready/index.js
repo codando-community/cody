@@ -1,8 +1,15 @@
-module.exports = (client, activeServer, config) => client.on('ready', () => {
-  config.prod.server_id === activeServer.server_id
-    ? client.user.setActivity('codandocommunity.com', { type: 'WATCHING' })
-    && console.log('Em ambiente de produção!')
+const Discord = require('discord.js');
+const config = require('../../config.json');
 
-    : client.user.setActivity('instagram/codando.community', { type: 'WATCHING' })
-    && console.log('Em ambiente de desenvolvimento.');
+/**
+ * Bot initialization
+ * @param {Discord.Client} client
+ * @param {Object} activeServer
+ */
+module.exports = (client, activeServer) => client.on('ready', () => {
+  client.user.setActivity('instagram/codando.community', { type: 'WATCHING' })
+
+  config.prod.server_id === activeServer.server_id
+    ? console.log('Em ambiente de produção!')
+    : console.log('Em ambiente de desenvolvimento.');
 });
