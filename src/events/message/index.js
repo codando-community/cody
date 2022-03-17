@@ -1,6 +1,9 @@
 module.exports = (client, activeServer) => client.on('message', msg => {
   if (msg.author !== client.user) {
 
+    const Audit = require('./audit/audit')
+    Audit(client, activeServer, msg)
+    
     if (msg.channel.type === 'dm') {
       const DM = require('./sendMessage/dm')
       DM(client, activeServer, msg)

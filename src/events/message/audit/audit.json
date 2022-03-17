@@ -1,0 +1,6 @@
+[
+    {
+        "request": "link suspeito",
+        "response": "fulano#1234 Enviou um link suspeito no canal {canal}, fiquem tranquilos que eu apaguei a mensagem"
+    }
+]
